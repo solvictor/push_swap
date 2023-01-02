@@ -29,7 +29,7 @@ WHITE		=	\033[0;97m
 
 # Sources
 
-SRC_FILES	=	push_swap parser
+SRC_FILES	=	push_swap parser instructions
 
 
 SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))

@@ -20,5 +20,9 @@
 # include "libft.h"
 
 t_list	*parse_ints(int argc, char const *argv[]);
+void	swap(t_list *pile);
+void	rotate(t_list **pile);
+void	rrotate(t_list **pile);
+void	push(t_list **sender, t_list **target);
 
 #endif
