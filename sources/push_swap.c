@@ -12,87 +12,100 @@
 
 #include "push_swap.h"
 
-static int	*parse_int(char const *str)
-{
-	long	value;
-	int		sign;
-	int		*parsed;
-
-	value = 0;
-	sign = 1;
-	if (*str == '-')
-	{
-		str++;
-		sign = -1;
-	}
-	while (*str)
-	{
-		if (*str < '0' || *str > '9' || value > INT_MAX / 10
-			|| (value == INT_MAX / 10 && *str - '0' > 7 && sign == 1))
-			return (NULL);
-		value = value * 10 + *str++ - '0';
-	}
-	value *= sign;
-	if (value < INT_MIN)
-		return (NULL);
-	parsed = malloc(sizeof(int));
-	if (parsed)
-		*parsed = value;
-	return (parsed);
-}
-
-static bool	in_list(t_list *list, int data)
-{
-	while (list)
-	{
-		if (*(int *) list->content == data)
-			return (true);
-		list = list->next;
-	}
-	return (false);
-}
-
-static t_list	*parse_ints(int argc, char const *argv[])
-{
-	t_list	*list;
-	t_list	*prev;
-	t_list	*new;
-	int		*parsed;
-	int		i;
-
-	list = NULL;
-	prev = NULL;
-	i = 1;
-	while (i < argc)
-	{
-		parsed = parse_int(argv[i++]);
-		if (!parsed || in_list(list, *parsed))
-			return (ft_lstclear(&list, free), NULL);
-		new = ft_lstnew(parsed);
-		if (!new)
-			return (ft_lstclear(&list, free), NULL);
-		if (prev)
-			prev->next = new;
-		else
-			list = new;
-		prev = new;
-	}
-	return (list);
-}
-
 static void	int_printer(void *data)
 {
 	ft_printf("%d ", *((int *) data));
 }
 
+static void	swap(t_list *pile)
+{
+	void	*tmp;
+
+	if (!pile || !pile->next)
+		return ;
+	tmp = pile->content;
+	pile->content = pile->next->content;
+	pile->next->content = tmp;
+}
+
+/*
+	push first element of sender to target
+*/
+static void	push(t_list **sender, t_list **target)
+{
+	t_list	*first;
+
+	if (!sender || !*sender)
+		return ;
+	first = *sender;
+	*sender = first->next;
+	first->next = *target;
+	*target = first;
+}
+
+static void	rotate(t_list **pile)
+{
+	t_list	*first;
+
+	if (!pile || !*pile)
+		return ;
+	first = *pile;
+	*pile = first->next;
+	first->next = NULL;
+	ft_lstadd_back(pile, first);
+}
+
+static void	rrotate(t_list **pile)
+{
+	t_list	*last;
+	t_list	*newlast;
+
+	if (!pile || !*pile)
+		return ;
+	last = *pile;
+	newlast = NULL;
+	while (last->next)
+	{
+		newlast = last;
+		last = last->next;
+	}
+	if (!newlast)
+		return ;
+	last->next = *pile;
+	*pile = last;
+	newlast->next = NULL;
+}
+
+static void	ps_sort(t_list *a, t_list *b)
+{
+
+}
+
 int	main(int argc, char const *argv[])
 {
-	t_list	*pile;
+	t_list	*a;
+	t_list	*b;
 
-	pile = parse_ints(argc, argv);
-	if (!pile)
-		return (ft_dprintf(2, "Error\n"), 1);
-	ft_lstiter(pile, &int_printer);
-	ft_lstclear(&pile, free);
-	return (0);
+	a = parse_ints(argc, argv);
+	b = parse_ints(argc, argv);
+	if (!a)
+		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
+	ps_sort(a, b);
+
+	ft_printf("A: ");
+	ft_lstiter(a, int_printer);
+	ft_printf("\nB: ");
+	ft_lstiter(b, int_printer);
+
+	ft_printf("\nra\n");
+	rotate(&a);
+
+	ft_printf("A: ");
+	ft_lstiter(a, int_printer);
+	ft_printf("\nB: ");
+	ft_lstiter(b, int_printer);
+
+	ft_lstclear(&a, &free);
+	ft_lstclear(&b, &free);
+	return (EXIT_SUCCESS);
 }

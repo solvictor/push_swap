@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 15:25:56 by vegret            #+#    #+#             */
-/*   Updated: 2022/11/20 20:43:17 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/02 02:49:59 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_list
+typedef struct s_strlst
 {
 	char			content[BUFFER_SIZE + 1];
-	struct s_list	*next;
-}	t_list;
+	struct s_strlst	*next;
+}	t_strlst;
 
-char	*get_next_line(int fd);
-char	*get_line(t_list *stash, int len);
-int		strindex(char *str, char c);
-int		ft_strlstlen(t_list *stash);
-t_list	*ft_lstlast(t_list *lst);
-t_list	*ft_lstnew(void);
-void	ft_lstclear(t_list **lst);
+char		*get_next_line(int fd);
+char		*get_line(t_strlst *stash, int len);
+int			strindex(char *str, char c);
+int			ft_strlstlen(t_strlst *stash);
+t_strlst	*gnl_lstlast(t_strlst *lst);
+t_strlst	*gnl_lstnew(void);
+void		gnl_lstclear(t_strlst **lst);
 
 #endif

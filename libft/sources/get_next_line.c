@@ -6,15 +6,15 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 15:25:50 by vegret            #+#    #+#             */
-/*   Updated: 2022/11/20 20:43:22 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/02 02:51:02 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_lstclear(t_list **lst)
+void	gnl_lstclear(t_strlst **lst)
 {
-	t_list	*tmp;
+	t_strlst	*tmp;
 
 	if (!lst || !*lst)
 		return ;
@@ -26,23 +26,23 @@ void	ft_lstclear(t_list **lst)
 	}
 }
 
-void	read_next_line(int fd, t_list **stash, int *line_length)
+void	read_next_line(int fd, t_strlst **stash, int *line_length)
 {
-	int		rd;
-	t_list	*new;
-	t_list	*prev;
+	int			rd;
+	t_strlst	*new;
+	t_strlst	*prev;
 
 	rd = BUFFER_SIZE;
-	prev = ft_lstlast(*stash);
+	prev = gnl_lstlast(*stash);
 	new = NULL;
 	while (rd == BUFFER_SIZE && strindex(new->content, '\n') == -1)
 	{
-		new = ft_lstnew();
+		new = gnl_lstnew();
 		if (!new)
-			return (ft_lstclear(stash));
+			return (gnl_lstclear(stash));
 		rd = read(fd, new->content, BUFFER_SIZE);
 		if (rd == -1)
-			ft_lstclear(stash);
+			gnl_lstclear(stash);
 		if (rd == 0 || rd == -1)
 			return (free(new));
 		(new->content)[rd] = '\0';
@@ -55,11 +55,11 @@ void	read_next_line(int fd, t_list **stash, int *line_length)
 	}
 }
 
-void	remove_first_line(t_list **stash)
+void	remove_first_line(t_strlst **stash)
 {
-	t_list	*tmp;
-	int		i;
-	int		j;
+	t_strlst	*tmp;
+	int			i;
+	int			j;
 
 	if (!stash || !*stash)
 		return ;
@@ -85,7 +85,7 @@ void	remove_first_line(t_list **stash)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*stashs[MAX_FILES];
+	static t_strlst	*stashs[MAX_FILES];
 	char			*line;
 	int				line_length;
 

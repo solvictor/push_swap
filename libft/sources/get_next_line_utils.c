@@ -6,13 +6,13 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 15:26:22 by vegret            #+#    #+#             */
-/*   Updated: 2022/11/20 20:43:20 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/02 02:50:29 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlstlen(t_list *stash)
+int	ft_strlstlen(t_strlst *stash)
 {
 	int	len;
 	int	i;
@@ -28,9 +28,9 @@ int	ft_strlstlen(t_list *stash)
 	return (len);
 }
 
-t_list	*ft_lstlast(t_list *lst)
+t_strlst	*gnl_lstlast(t_strlst *lst)
 {
-	t_list	*tmp;
+	t_strlst	*tmp;
 
 	if (lst)
 	{
@@ -42,11 +42,11 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-t_list	*ft_lstnew(void)
+t_strlst	*gnl_lstnew(void)
 {
-	t_list	*result;
+	t_strlst	*result;
 
-	result = malloc(sizeof(t_list));
+	result = malloc(sizeof(t_strlst));
 	if (!result)
 		return (NULL);
 	result->content[0] = '\0';
@@ -54,7 +54,7 @@ t_list	*ft_lstnew(void)
 	return (result);
 }
 
-char	*get_line(t_list *stash, int len)
+char	*get_line(t_strlst *stash, int len)
 {
 	char	*result;
 	char	*tmp;
@@ -62,7 +62,7 @@ char	*get_line(t_list *stash, int len)
 
 	result = malloc((len + 1) * sizeof(char));
 	if (!result)
-		return (ft_lstclear(&stash), NULL);
+		return (gnl_lstclear(&stash), NULL);
 	i = 0;
 	while (stash)
 	{

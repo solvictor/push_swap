@@ -19,11 +19,6 @@
 # include <stdbool.h>
 # include "libft.h"
 
-// TODO Utiliser si les listes de la libft marchent pas
-//typedef struct s_int_list
-//{
-//	int					data;
-//	struct s_int_list	*next;
-//}	t_int_list;
+t_list	*parse_ints(int argc, char const *argv[]);
 
 #endif

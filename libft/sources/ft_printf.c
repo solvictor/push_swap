@@ -12,6 +12,11 @@
 
 #include "ft_printf.h"
 
+/* TODO
+- Finir
+- norme
+- handle write fail
+*/
 static int	ft_vdprintf(int fd, const char *format, va_list args)
 {
 	int		i;

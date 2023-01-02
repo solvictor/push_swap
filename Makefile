@@ -6,7 +6,7 @@ LIBFT		= libft
 SRC_DIR		= sources/
 OBJ_DIR		= objects/
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra
 RM			= rm -f
 SMAKE		= make --no-print-directory
 
@@ -29,7 +29,7 @@ WHITE		=	\033[0;97m
 
 # Sources
 
-SRC_FILES	=	push_swap
+SRC_FILES	=	push_swap parser
 
 
 SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
