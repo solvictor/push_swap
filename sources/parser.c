@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/02 03:08:19 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/03 01:26:35 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,18 @@ t_list	*parse_ints(int argc, char const *argv[])
 	int		i;
 
 	list = NULL;
-	prev = NULL;
 	i = 1;
 	while (i < argc)
 	{
 		parsed = parse_int(argv[i++]);
-		if (!parsed || in_list(list, *parsed))
+		if (!parsed)
 			return (ft_lstclear(&list, free), NULL);
+		if (in_list(list, *parsed))
+			return (free(parsed), ft_lstclear(&list, free), NULL);
 		new = ft_lstnew(parsed);
 		if (!new)
-			return (ft_lstclear(&list, free), NULL);
-		if (prev)
+			return (free(parsed), ft_lstclear(&list, free), NULL);
+		if (list)
 			prev->next = new;
 		else
 			list = new;

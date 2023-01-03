@@ -1,6 +1,7 @@
 # Variables
 
 NAME		= push_swap
+NAME_B		= checker
 INCLUDE		= includes
 LIBFT		= libft
 SRC_DIR		= sources/
@@ -29,11 +30,14 @@ WHITE		=	\033[0;97m
 
 # Sources
 
-SRC_FILES	=	push_swap parser instructions
+SRC_FILES	=	push_swap parser instructions utils
+SRC_B_FILES	=	checker parser instructions utils
 
 
-SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
+OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+SRC_B		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_B_FILES)))
+OBJ_B		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_B_FILES)))
 
 ###
 
@@ -41,11 +45,14 @@ OBJF		=	.cache_exists
 
 all:		$(NAME)
 
-bonus:		all
+bonus:		$(OBJ_B)
+			@$(SMAKE) -C $(LIBFT)
+			@$(CC) $(OBJ_B) -L $(LIBFT) -lft -o $(NAME_B)
+			@echo "$(GREEN)$(BOLD)$(NAME_B) compiled!$(DEF_COLOR)"
 
 $(NAME):	$(OBJ)
 			@$(SMAKE) -C $(LIBFT)
-			@$(CC) $(OBJ) -L $(LIBFT) -lft -o $@
+			@$(CC) $(OBJ) -L $(LIBFT) -lft -o $(NAME)
 			@echo "$(GREEN)$(BOLD)$(NAME) compiled!$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
@@ -61,6 +68,7 @@ clean:
 
 fclean:		clean
 			@$(RM) $(NAME)
+			@$(RM) $(NAME_B)
 			@$(SMAKE) -C $(LIBFT) fclean
 			@echo "$(CYAN)$(NAME) executable files cleaned!$(DEF_COLOR)"
 

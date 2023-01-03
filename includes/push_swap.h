@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include "libft.h"
 
+bool	is_sorted(t_list *list);
 t_list	*parse_ints(int argc, char const *argv[]);
 void	swap(t_list *pile);
 void	rotate(t_list **pile);
