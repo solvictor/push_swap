@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/02 03:17:09 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/03 11:48:40 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,26 @@ void	swap(t_list *pile)
 	pile->next->content = tmp;
 }
 
+static void	int_printer(void *data)
+{
+	ft_printf("%d ", *((int *) data));
+}
+
+static void	debug(t_list *a, t_list *b)
+{
+	ft_printf("A: ");
+	ft_lstiter(a, int_printer);
+	ft_printf("\nB: ");
+	ft_lstiter(b, int_printer);
+	ft_printf("\n");
+}
+
 void	push(t_list **sender, t_list **target)
 {
-	t_list	*first;
-
 	if (!sender || !*sender)
 		return ;
-	first = *sender;
-	*sender = first->next;
-	first->next = *target;
-	*target = first;
+	ft_lstadd_front(target, *sender);
+	*sender = (*sender)->next;
 }
 
 void	rotate(t_list **pile)
