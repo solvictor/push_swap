@@ -21,7 +21,25 @@ static void	sort(t_list *a, t_list *b)
 {
 	while (b || !is_sorted(a))
 	{
-		
+		if (ft_lstsize(a) > 1 && ft_lstsize(b) > 1
+			&& *(int *) a->content > *(int *) a->next->content
+			&& *(int *) b->content < *(int *) b->next->content)
+		{
+			(ft_printf("ss\n"), swap(a), swap(b));
+			continue ;
+		}
+		if (ft_lstsize(a) > 1
+			&& *(int *) a->content > *(int *) a->next->content)
+		{
+			(ft_printf("sa\n"), swap(a));
+			continue ;
+		}
+		if (ft_lstsize(b) > 1
+			&& *(int *) b->content < *(int *) b->next->content)
+		{
+			(ft_printf("sb\n"), swap(a));
+			continue ;
+		}
 	}
 }
 
