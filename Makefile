@@ -7,7 +7,7 @@ LIBFT		= libft
 SRC_DIR		= sources/
 OBJ_DIR		= objects/
 CC			= cc
-CFLAGS		= -Wall -Wextra
+CFLAGS		= 
 RM			= rm -f
 SMAKE		= make --no-print-directory
 
@@ -56,6 +56,8 @@ $(NAME):	$(OBJ)
 			@echo "$(GREEN)$(BOLD)$(NAME) compiled!$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
+			@echo "\033[1A                                                     "
+			@echo -n "\033[1A"
 			@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
 			@$(CC) $(CFLAGS) -I $(INCLUDE) -I $(LIBFT)/includes -c $< -o $@
 
@@ -84,4 +86,4 @@ norm:
 				print "$(LIGHT_RED)"$$0"$(END)" \
 			} else { print }}'
 
-.PHONY:		all clean fclean re norm
+.PHONY:		all clean fclean re norm bonus
