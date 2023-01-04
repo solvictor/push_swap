@@ -6,21 +6,21 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/03 13:48:32 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/04 18:26:37 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(t_list *pile)
+void	swap(t_list *stack)
 {
-	void	*tmp;
+	void	*first;
 
-	if (!pile || !pile->next)
+	if (!stack || !stack->next)
 		return ;
-	tmp = pile->content;
-	pile->content = pile->next->content;
-	pile->next->content = tmp;
+	first = stack->content;
+	stack->content = stack->next->content;
+	stack->next->content = first;
 }
 
 void	push(t_list **sender, t_list **target)
@@ -35,26 +35,26 @@ void	push(t_list **sender, t_list **target)
 	ft_lstadd_front(target, first);
 }
 
-void	rotate(t_list **pile)
+void	rotate(t_list **stack)
 {
 	t_list	*first;
 
-	if (!pile || ft_lstsize(*pile) < 2)
+	if (!stack || ft_lstsize(*stack) < 2)
 		return ;
-	first = *pile;
-	*pile = (*pile)->next;
+	first = *stack;
+	*stack = (*stack)->next;
 	first->next = NULL;
-	ft_lstadd_back(pile, first);
+	ft_lstadd_back(stack, first);
 }
 
-void	rrotate(t_list **pile)
+void	rrotate(t_list **stack)
 {
 	t_list	*last;
 	t_list	*newlast;
 
-	if (!pile || ft_lstsize(*pile) < 2)
+	if (!stack || ft_lstsize(*stack) < 2)
 		return ;
-	last = *pile;
+	last = *stack;
 	newlast = NULL;
 	while (last->next)
 	{
@@ -63,7 +63,7 @@ void	rrotate(t_list **pile)
 	}
 	if (!newlast)
 		return ;
-	last->next = *pile;
-	*pile = last;
+	last->next = *stack;
+	*stack = last;
 	newlast->next = NULL;
 }

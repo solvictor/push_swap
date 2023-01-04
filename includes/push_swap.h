@@ -19,11 +19,11 @@
 # include <stdbool.h>
 # include "libft.h"
 
-bool	is_sorted(t_list *list);
+bool	is_sorted(t_list *stack);
 t_list	*parse_ints(int argc, char const *argv[]);
-void	swap(t_list *pile);
-void	rotate(t_list **pile);
-void	rrotate(t_list **pile);
+void	swap(t_list *stack);
+void	rotate(t_list **stack);
+void	rrotate(t_list **stack);
 void	push(t_list **sender, t_list **target);
 
 #endif
