@@ -6,20 +6,20 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/03 13:48:56 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/06 17:06:17 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static bool	run_instruction(char *instruction, t_list **a, t_list **b)
+static bool	run_instruction(char *instruction, t_stack *a, t_stack *b)
 {
 	if (!ft_strncmp(instruction, "sa\n", 4))
-		swap(*a);
+		swap(a);
 	else if (!ft_strncmp(instruction, "sb\n", 4))
-		swap(*b);
+		swap(b);
 	else if (!ft_strncmp(instruction, "ss\n", 4))
-		(swap(*a), swap(*b));
+		(swap(a), swap(b));
 	else if (!ft_strncmp(instruction, "pa\n", 4))
 		push(b, a);
 	else if (!ft_strncmp(instruction, "pb\n", 4))
@@ -41,7 +41,7 @@ static bool	run_instruction(char *instruction, t_list **a, t_list **b)
 	return (EXIT_SUCCESS);
 }
 
-static bool	run_instructions(t_list **a, t_list **b)
+static bool	run_instructions(t_stack *a, t_stack *b)
 {
 	char	*line;
 
@@ -60,26 +60,28 @@ static bool	run_instructions(t_list **a, t_list **b)
 
 int	main(int argc, char const *argv[])
 {
-	t_list	*a;
-	t_list	*b;
+	t_stack	a;
+	t_stack	b;
 
 	if (argc == 1)
 		return (EXIT_SUCCESS);
-	a = parse_ints(argc, argv);
-	b = NULL;
-	if (!a || run_instructions(&a, &b))
+	a.head = parse_ints(argc, argv);
+	a.size = argc - 1;
+	b.head = NULL;
+	b.size = 0;
+	if (!a.head || run_instructions(&a, &b))
 	{
-		ft_lstclear(&a, &free);
-		ft_lstclear(&b, &free);
+		clear_nodes(a.head);
+		clear_nodes(b.head);
 		ft_dprintf(2, "Error\n");
 		return (EXIT_FAILURE);
 	}
 	ft_printf("\033[1A");
-	if (!b && is_sorted(a))
+	if (b.size == 0 && is_sorted(&a))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
-	ft_lstclear(&a, &free);
-	ft_lstclear(&b, &free);
+	clear_nodes(a.head);
+	clear_nodes(b.head);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 12:26:45 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/06 17:16:05 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	is_sorted(t_stack *stack)
 	list = stack->head;
 	if (!list)
 		return (true);
-	while (list->next)
+	while (list->next != stack->head)
 	{
 		if (list->data > list->next->data)
 			return (false);
@@ -28,28 +28,19 @@ bool	is_sorted(t_stack *stack)
 	return (true);
 }
 
-void	clear_nodes(t_node **lst)
+void	print_stack(t_stack *stack)
 {
-	t_node	*tmp;
+	size_t	i;
+	t_node	*current;
 
-	if (!lst || !*lst)
+	if (!stack->head)
 		return ;
-	while (*lst)
+	i = 0;
+	current = stack->head;
+	while (i < stack->size)
 	{
-		tmp = (*lst)->next;
-		free(*lst);
-		*lst = tmp;
+		ft_printf("%d ", current->data);
+		current = current->next;
+		i++;
 	}
-}
-
-static void	int_printer(void *data)
-{
-	ft_printf("%d ", *((int *) data));
-}
-
-static void	debug(t_list *list, char *name)
-{
-	ft_printf("%s: ", name);
-	ft_lstiter(list, int_printer);
-	ft_printf("\n");
 }

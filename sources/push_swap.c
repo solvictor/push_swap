@@ -12,55 +12,47 @@
 
 #include "push_swap.h"
 
-static void	sort(t_list *a, t_list *b, size_t a_size, size_t b_size)
-{
-	if (a_size == 1 || is_sorted(a))
-		return ;
-	if (a_size == 2)
-		return ((void) ft_printf("sa\n"));
-}
+//void	sorttest(t_stack *a, t_stack *b)
+//{
+//	int		min_value;
+//	t_node	*node_a;
+//	t_node	*node_b;
+//	t_node	*min_node;
+//	t_node	*temp;
 
-void	sorttest(t_stack *a, t_stack *b)
-{
-	int		min_value;
-	t_node	*a;
-	t_node	*b;
-	t_node	*min_node;
-	t_node	*temp;
-
-	while (a)
-	{
-		min_value = a->data;
-		min_node = a;
-		temp = a;
-		while (temp != NULL)
-		{
-			if (temp->data < min_value)
-			{
-				min_value = temp->data;
-				min_node = temp;
-			}
-			temp = temp->next;
-		}
-		while (a != min_node)
-		{
-			ft_printf("ra\n");
-			rotate(&a);
-		}
-		ft_printf("pb\n");
-		push(&a, &b);
-		while (a && b && b->data > a->data)
-		{
-			ft_printf("rb\n");
-			rotate(&b);
-		}
-	}
-	while (b)
-	{
-		ft_printf("pa\n");
-		push(&b, &a);
-	}
-}
+//	while (node_a)
+//	{
+//		min_value = node_a->data;
+//		min_node = node_a;
+//		temp = node_a;
+//		while (temp != NULL)
+//		{
+//			if (temp->data < min_value)
+//			{
+//				min_value = temp->data;
+//				min_node = temp;
+//			}
+//			temp = temp->next;
+//		}
+//		while (node_a != min_node)
+//		{
+//			ft_printf("ra\n");
+//			rotate(a);
+//		}
+//		ft_printf("pb\n");
+//		push(a, b);
+//		while (node_a && node_b && node_b->data > node_a->data)
+//		{
+//			ft_printf("rb\n");
+//			rotate(b);
+//		}
+//	}
+//	while (node_b)
+//	{
+//		ft_printf("pa\n");
+//		push(b, a);
+//	}
+//}
 
 int	main(int argc, char const *argv[])
 {
@@ -68,12 +60,21 @@ int	main(int argc, char const *argv[])
 	t_stack	b;
 
 	a.head = parse_ints(argc, argv);
+	a.size = argc - 1;
 	b.head = NULL;
+	b.size = 0;
 	if (argc > 1 && !a.head)
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
-	//sort(a, b, argc - 1, 0);
-	sorttest(&a, &b);
-	clear_nodes(&a.head);
-	clear_nodes(&b.head);
+	//sorttest(&a, &b);
+	push(&a, &b);
+	//push(&b, &a);
+
+	ft_printf("A: ");
+	print_stack(&a);
+	ft_printf("\nB: ");
+	print_stack(&b);
+	ft_printf("\n");
+	clear_nodes(a.head);
+	clear_nodes(b.head);
 	return (EXIT_SUCCESS);
 }

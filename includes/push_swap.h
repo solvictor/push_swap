@@ -20,6 +20,7 @@
 # include "libft.h"
 
 typedef struct s_node {
+	struct s_node	*prev;
 	int				data;
 	struct s_node	*next;
 }				t_node;
@@ -31,10 +32,20 @@ typedef struct s_stack {
 
 bool	is_sorted(t_stack *stack);
 t_node	*parse_ints(int argc, char const *argv[]);
-void	swap(t_list *stack);
-void	rotate(t_list **stack);
-void	rrotate(t_list **stack);
-void	push(t_list **sender, t_list **target);
-void	clear_nodes(t_node **lst);
+
+// Instructions
+void	swap(t_stack *stack);
+void	rotate(t_stack *stack);
+void	rrotate(t_stack *stack);
+void	push(t_stack *sender, t_stack *target);
+
+// Stack manipulation
+t_node	*new_node(int data);
+void	clear_nodes(t_node *list);
+void	cicrular_doubly_list_addback(t_node **list, t_node *new);
+void	cicrular_doubly_list_addfront(t_node **list, t_node *new);
+
+// Debug stuff
+void	print_stack(t_stack *stack);
 
 #endif
