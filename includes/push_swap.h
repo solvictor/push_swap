@@ -30,7 +30,7 @@ typedef struct s_stack {
 	size_t	size;
 }				t_stack;
 
-bool	is_sorted(t_stack *stack);
+// Parsing
 t_node	*parse_ints(int argc, char const *argv[]);
 
 // Instructions
@@ -44,6 +44,10 @@ t_node	*new_node(int data);
 void	clear_nodes(t_node *list);
 void	cicrular_doubly_list_addback(t_node **list, t_node *new);
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new);
+
+// Stack checks
+bool	is_sorted(t_stack *stack);
+bool	in_list(t_node *list, int data);
 
 // Debug stuff
 void	print_stack(t_stack *stack);

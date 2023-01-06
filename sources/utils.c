@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 17:16:05 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/06 18:01:50 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,25 @@ bool	is_sorted(t_stack *stack)
 		list = list->next;
 	}
 	return (true);
+}
+
+bool	in_list(t_node *list, int data)
+{
+	t_node	*first;
+
+	if (!list)
+		return (false);
+	if (list->data == data)
+		return (true);
+	first = list;
+	list = first->next;
+	while (list != first)
+	{
+		if (list->data == data)
+			return (true);
+		list = list->next;
+	}
+	return (false);
 }
 
 void	print_stack(t_stack *stack)

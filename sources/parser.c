@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 17:25:04 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/06 18:01:55 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,6 @@ static int	parse_int(char const *str)
 	if (value < INT_MIN)
 		return (-1);
 	return (value);
-}
-
-static bool	in_list(t_node *list, int data)
-{
-	t_node	*first;
-
-	if (!list)
-		return (false);
-	if (list->data == data)
-		return (true);
-	first = list;
-	list = first->next;
-	while (list != first)
-	{
-		if (list->data == data)
-			return (true);
-		list = list->next;
-	}
-	return (false);
 }
 
 t_node	*parse_ints(int argc, char const *argv[])
