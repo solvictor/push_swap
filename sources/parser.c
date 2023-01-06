@@ -6,17 +6,17 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/03 14:41:10 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/06 12:24:23 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	*parse_int(char const *str)
+// TODO changer return NULL
+static int	parse_int(char const *str)
 {
 	long	value;
 	int		sign;
-	int		*parsed;
 
 	value = 0;
 	sign = 1;
@@ -35,43 +35,50 @@ static int	*parse_int(char const *str)
 	value *= sign;
 	if (value < INT_MIN)
 		return (NULL);
-	parsed = malloc(sizeof(int));
-	if (parsed)
-		*parsed = value;
-	return (parsed);
+	return (value);
 }
 
-static bool	in_list(t_list *list, int data)
+static bool	in_list(t_node *list, int data)
 {
 	while (list)
 	{
-		if (*(int *) list->content == data)
+		if (list->data == data)
 			return (true);
 		list = list->next;
 	}
 	return (false);
 }
 
-t_list	*parse_ints(int argc, char const *argv[])
+static t_node	*new_node(int data)
 {
-	t_list	*list;
-	t_list	*prev;
-	t_list	*new;
-	int		*parsed;
+	t_node	*new;
+
+	new = malloc(sizeof(t_node));
+	if (!new)
+		return (NULL);
+	new->data = data;
+	new->next = NULL;
+	return (new);
+}
+
+t_node	*parse_ints(int argc, char const *argv[])
+{
+	t_node	*list;
+	t_node	*prev;
+	t_node	*new;
+	int		parsed;
 	int		i;
 
 	list = NULL;
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (i++ < argc)
 	{
-		parsed = parse_int(argv[i++]);
-		if (!parsed)
-			return (ft_lstclear(&list, free), NULL);
-		if (!argv[i - 1][0] || in_list(list, *parsed))
-			return (free(parsed), ft_lstclear(&list, free), NULL);
-		new = ft_lstnew(parsed);
+		parsed = parse_int(argv[i]);
+		if (!argv[i][0] || in_list(list, parsed))
+			return (clear_nodes(&list), NULL);
+		new = new_node(parsed);
 		if (!new)
-			return (free(parsed), ft_lstclear(&list, free), NULL);
+			return (clear_nodes(&list), NULL);
 		if (list)
 			prev->next = new;
 		else

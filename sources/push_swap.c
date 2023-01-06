@@ -12,48 +12,68 @@
 
 #include "push_swap.h"
 
-static void	int_printer(void *data)
+static void	sort(t_list *a, t_list *b, size_t a_size, size_t b_size)
 {
-	ft_printf("%d ", *((int *) data));
+	if (a_size == 1 || is_sorted(a))
+		return ;
+	if (a_size == 2)
+		return ((void) ft_printf("sa\n"));
 }
 
-static void	sort(t_list *a, t_list *b)
+void	sorttest(t_stack *a, t_stack *b)
 {
-	while (b || !is_sorted(a))
+	int		min_value;
+	t_node	*a;
+	t_node	*b;
+	t_node	*min_node;
+	t_node	*temp;
+
+	while (a)
 	{
-		if (ft_lstsize(a) > 1 && ft_lstsize(b) > 1
-			&& *(int *) a->content > *(int *) a->next->content
-			&& *(int *) b->content < *(int *) b->next->content)
+		min_value = a->data;
+		min_node = a;
+		temp = a;
+		while (temp != NULL)
 		{
-			(ft_printf("ss\n"), swap(a), swap(b));
-			continue ;
+			if (temp->data < min_value)
+			{
+				min_value = temp->data;
+				min_node = temp;
+			}
+			temp = temp->next;
 		}
-		if (ft_lstsize(a) > 1
-			&& *(int *) a->content > *(int *) a->next->content)
+		while (a != min_node)
 		{
-			(ft_printf("sa\n"), swap(a));
-			continue ;
+			ft_printf("ra\n");
+			rotate(&a);
 		}
-		if (ft_lstsize(b) > 1
-			&& *(int *) b->content < *(int *) b->next->content)
+		ft_printf("pb\n");
+		push(&a, &b);
+		while (a && b && b->data > a->data)
 		{
-			(ft_printf("sb\n"), swap(a));
-			continue ;
+			ft_printf("rb\n");
+			rotate(&b);
 		}
+	}
+	while (b)
+	{
+		ft_printf("pa\n");
+		push(&b, &a);
 	}
 }
 
 int	main(int argc, char const *argv[])
 {
-	t_list	*a;
-	t_list	*b;
+	t_stack	a;
+	t_stack	b;
 
-	a = parse_ints(argc, argv);
-	b = NULL;
-	if (argc > 1 && !a)
+	a.head = parse_ints(argc, argv);
+	b.head = NULL;
+	if (argc > 1 && !a.head)
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
-	sort(a, b);
-	ft_lstclear(&a, &free);
-	ft_lstclear(&b, &free);
+	//sort(a, b, argc - 1, 0);
+	sorttest(&a, &b);
+	clear_nodes(&a.head);
+	clear_nodes(&b.head);
 	return (EXIT_SUCCESS);
 }

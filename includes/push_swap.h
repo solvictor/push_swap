@@ -19,11 +19,22 @@
 # include <stdbool.h>
 # include "libft.h"
 
-bool	is_sorted(t_list *stack);
-t_list	*parse_ints(int argc, char const *argv[]);
+typedef struct s_node {
+	int				data;
+	struct s_node	*next;
+}				t_node;
+
+typedef struct s_stack {
+	t_node	*head;
+	size_t	size;
+}				t_stack;
+
+bool	is_sorted(t_stack *stack);
+t_node	*parse_ints(int argc, char const *argv[]);
 void	swap(t_list *stack);
 void	rotate(t_list **stack);
 void	rrotate(t_list **stack);
 void	push(t_list **sender, t_list **target);
+void	clear_nodes(t_node **lst);
 
 #endif
