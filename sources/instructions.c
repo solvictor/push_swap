@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 17:24:40 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/07 22:04:57 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 void	swap(t_stack *stack)
 {
-	int	first;
+	t_node	*first;
+	t_node	*second;
 
 	if (!stack || stack->size < 2)
 		return ;
-	first = stack->head->data;
-	stack->head->data = stack->head->next->data;
-	stack->head->next->data = first;
+	first = stack->head;
+	second = stack->head->next;
+	second->prev = first->prev;
+	second->prev->next = second;
+	first->next = second->next;
+	first->next->prev = first;
+	second->next = first;
+	first->prev = second;
+	stack->head = second;
 }
 
 void	push(t_stack *sender, t_stack *target)

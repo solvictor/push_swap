@@ -12,46 +12,61 @@
 
 #include "push_swap.h"
 
-void	sorttest(t_stack *a, t_stack *b)
+static void	_sort(t_stack *a, t_stack *b)
 {
-	int		min_value;
-	t_node	*node_a;
-	t_node	*node_b;
-	t_node	*min_node;
-	t_node	*temp;
+	int		min;
+	int		count;
+	t_node	*tmp;
 
-	while (node_a)
+	while (b->size || !is_sorted(a))
 	{
-		min_value = node_a->data;
-		min_node = node_a;
-		temp = node_a;
-		while (temp != NULL)
+		min = a->head->data;
+		tmp = a->head;
+		count = a->size;
+		while (count > 0)
 		{
-			if (temp->data < min_value)
+			if (tmp->next->data < min)
 			{
-				min_value = temp->data;
-				min_node = temp;
+				min = tmp->next->data;
+				swap(a);
 			}
-			temp = temp->next;
-		}
-		while (node_a != min_node)
-		{
-			ft_printf("ra\n");
-			rotate(a);
-		}
-		ft_printf("pb\n");
-		push(a, b);
-		while (node_a && node_b && node_b->data > node_a->data)
-		{
-			ft_printf("rb\n");
+			push(a, b);
 			rotate(b);
+			tmp = tmp->next;
+			count--;
 		}
+		print_stack(b);
+		ft_printf("Min: %d\n", min);
+		count = b->size;
+		while (count > 0)
+		{
+			if (b->head->data != min)
+			{
+				push(b, a);
+				rrotate(a);
+			}
+			else
+			{
+				push(b, a);
+				break ;
+			}
+			count--;
+		}
+		print_stack(a);
+		while (a->head->data != min)
+			rrotate(a);
+		print_stack(a);
+		ft_printf("END\n");
 	}
-	while (node_b)
-	{
-		ft_printf("pa\n");
-		push(b, a);
-	}
+}
+
+void	sort(t_stack *a, t_stack *b)
+{
+	if (a->size == 1 || is_sorted(a))
+		return ;
+	if (a->size == 2)
+		return ((void) ft_printf("sa\n"));
+	_sort(a, b);
 }
 
 int	main(int argc, char const *argv[])
@@ -65,7 +80,9 @@ int	main(int argc, char const *argv[])
 	b.size = 0;
 	if (argc > 1 && !a.head)
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
-	sorttest(&a, &b);
+	sort(&a, &b);
+	ft_printf("Result: ");
+	print_stack(&a);
 	clear_nodes(a.head);
 	clear_nodes(b.head);
 	return (EXIT_SUCCESS);
