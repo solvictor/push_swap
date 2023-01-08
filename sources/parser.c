@@ -6,14 +6,13 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 18:01:55 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/08 23:31:57 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// TODO changer return -1
-static int	parse_int(char const *str)
+static int	parse_int(char const *str, int *dst)
 {
 	long	value;
 	int		sign;
@@ -29,13 +28,14 @@ static int	parse_int(char const *str)
 	{
 		if (*str < '0' || *str > '9' || value > INT_MAX / 10
 			|| (value == INT_MAX / 10 && *str - '0' > 7 && sign == 1))
-			return (-1);
+			return (1);
 		value = value * 10 + *str++ - '0';
 	}
 	value *= sign;
 	if (value < INT_MIN)
-		return (-1);
-	return (value);
+		return (1);
+	*dst = (int) value;
+	return (0);
 }
 
 t_node	*parse_ints(int argc, char const *argv[])
@@ -49,9 +49,8 @@ t_node	*parse_ints(int argc, char const *argv[])
 	i = 1;
 	while (i < argc)
 	{
-		parsed = parse_int(argv[i]);
-		if (!argv[i][0] || ft_strlen(argv[i]) > 11 || in_list(list, parsed)
-			|| (argv[i][0] && parsed == -1))
+		if (!argv[i][0] || ft_strlen(argv[i]) > 11
+			|| parse_int(argv[i], &parsed) || in_list(list, parsed))
 			return (clear_nodes(list), NULL);
 		new = new_node(parsed);
 		if (!new)
