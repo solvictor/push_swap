@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 22:18:09 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/09 23:17:26 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static bool	parse_int_one_arg(char const *str, int *dst, int *i)
 	}
 	while (str[*i] && str[*i] != ' ')
 	{
-		if (str[*i] < '0' || str[*i] > '9' || value > INT_MAX / 10
-			|| (value == INT_MAX / 10 && str[*i] - '0' > 7 && sign == 1))
+		if (str[*i] < '0' || str[*i] > '9' || (value > INT_MAX && sign == 1)
+			|| (value - 1 >= INT_MAX && sign == -1))
 			return (1);
 		value = value * 10 + str[(*i)++] - '0';
 	}
 	value *= sign;
-	if (value < INT_MIN)
+	if (value < INT_MIN || value > INT_MAX)
 		return (1);
 	*dst = (int) value;
 	return (0);
