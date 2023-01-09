@@ -32,7 +32,7 @@ typedef struct s_stack {
 }				t_stack;
 
 // Parsing
-t_node	*parse_ints(int argc, char const *argv[]);
+bool	parse_args(t_stack *stack, int argc, char const *argv[]);
 
 // Instructions
 void	swap(t_stack *stack);
@@ -42,7 +42,7 @@ void	push(t_stack *sender, t_stack *target);
 
 // Stack manipulation
 t_node	*new_node(int data);
-void	clear_nodes(t_node *list);
+void	clear_nodes(t_stack *stack);
 void	cicrular_doubly_list_addback(t_node **list, t_node *new);
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new);
 

@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/07 19:30:08 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/08 23:38:29 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	print_stack(t_stack *stack)
 	if (!stack->head)
 		return ;
 	i = 0;
+	ft_printf("Stack %c: ", stack->name);
 	current = stack->head;
 	while (i < stack->size)
 	{

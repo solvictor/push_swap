@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/06 17:06:17 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/09 19:03:24 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char const *argv[])
 
 	if (argc == 1)
 		return (EXIT_SUCCESS);
-	a.head = parse_ints(argc, argv);
+	a.head = parse_args(argc, argv);
 	a.size = argc - 1;
 	b.head = NULL;
 	b.size = 0;

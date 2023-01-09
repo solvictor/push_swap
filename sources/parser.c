@@ -6,30 +6,30 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/08 23:31:57 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/09 22:18:09 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	parse_int(char const *str, int *dst)
+static bool	parse_int_one_arg(char const *str, int *dst, int *i)
 {
 	long	value;
 	int		sign;
 
 	value = 0;
 	sign = 1;
-	if (*str == '-')
+	if (str[*i] == '-')
 	{
-		str++;
+		(*i)++;
 		sign = -1;
 	}
-	while (*str)
+	while (str[*i] && str[*i] != ' ')
 	{
-		if (*str < '0' || *str > '9' || value > INT_MAX / 10
-			|| (value == INT_MAX / 10 && *str - '0' > 7 && sign == 1))
+		if (str[*i] < '0' || str[*i] > '9' || value > INT_MAX / 10
+			|| (value == INT_MAX / 10 && str[*i] - '0' > 7 && sign == 1))
 			return (1);
-		value = value * 10 + *str++ - '0';
+		value = value * 10 + str[(*i)++] - '0';
 	}
 	value *= sign;
 	if (value < INT_MIN)
@@ -38,25 +38,35 @@ static int	parse_int(char const *str, int *dst)
 	return (0);
 }
 
-t_node	*parse_ints(int argc, char const *argv[])
+static bool	parse_arg(t_stack *stack, char const *str)
 {
-	t_node	*list;
 	t_node	*new;
-	int		parsed;
 	int		i;
+	int		parsed;
 
-	list = NULL;
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (str[i])
 	{
-		if (!argv[i][0] || ft_strlen(argv[i]) > 11
-			|| parse_int(argv[i], &parsed) || in_list(list, parsed))
-			return (clear_nodes(list), NULL);
+		if (parse_int_one_arg(str, &parsed, &i) || in_list(stack->head, parsed))
+			return (clear_nodes(stack), 1);
 		new = new_node(parsed);
 		if (!new)
-			return (clear_nodes(list), NULL);
-		cicrular_doubly_list_addback(&list, new);
-		i++;
+			return (clear_nodes(stack), 1);
+		cicrular_doubly_list_addback(&stack->head, new);
+		stack->size++;
+		while (str[i] == ' ')
+			i++;
 	}
-	return (list);
+	return (0);
+}
+
+bool	parse_args(t_stack *stack, int argc, char const *argv[])
+{
+	int	i;
+
+	i = 1;
+	while (i < argc)
+		if (parse_arg(stack, argv[i++]))
+			return (1);
+	return (0);
 }
