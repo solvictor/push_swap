@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 19:03:24 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/09 23:27:15 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ int	main(int argc, char const *argv[])
 
 	if (argc == 1)
 		return (EXIT_SUCCESS);
-	a.head = parse_args(argc, argv);
-	a.size = argc - 1;
-	b.head = NULL;
-	b.size = 0;
-	if (!a.head || run_instructions(&a, &b))
+	a = new_stack('a');
+	b = new_stack('b');
+	if (parse_args(&a, argc, argv) || run_instructions(&a, &b))
 	{
-		clear_nodes(a.head);
-		clear_nodes(b.head);
+		clear_nodes(&a);
+		clear_nodes(&b);
 		ft_dprintf(2, "Error\n");
 		return (EXIT_FAILURE);
 	}
@@ -81,7 +79,7 @@ int	main(int argc, char const *argv[])
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
-	clear_nodes(a.head);
-	clear_nodes(b.head);
+	clear_nodes(&a);
+	clear_nodes(&b);
 	return (EXIT_SUCCESS);
 }

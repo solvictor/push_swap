@@ -74,16 +74,6 @@ static void	sort(t_stack *a, t_stack *b)
 	_sort(a, b);
 }
 
-static t_stack	new_stack(char name)
-{
-	t_stack	stack;
-
-	stack.name = name;
-	stack.head = NULL;
-	stack.size = 0;
-	return (stack);
-}
-
 int	main(int argc, char const *argv[])
 {
 	t_stack	a;
