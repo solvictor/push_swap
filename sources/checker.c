@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/10 01:09:39 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/10 01:28:36 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ static bool	run_instructions(t_stack *a, t_stack *b)
 	line = get_next_line(0);
 	while (line)
 	{
-		if (*line == '\n')
-		{
-			ft_printf("\033[1A");
-			free(line);
-			break ;
-		}
 		if (run_instruction(line, a, b))
 			return (free(line), EXIT_FAILURE);
 		free(line);
