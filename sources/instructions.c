@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 15:36:15 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/10 00:21:27 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	swap(t_stack *stack)
 	second->next = first;
 	first->prev = second;
 	stack->head = second;
-	ft_printf("s%c\n", stack->name);
+	if (!stack->silent)
+		ft_printf("s%c\n", stack->name);
 }
 
 void	push(t_stack *sender, t_stack *target)
@@ -49,7 +50,8 @@ void	push(t_stack *sender, t_stack *target)
 	sender->size--;
 	cicrular_doubly_list_addfront(&target->head, first);
 	target->size++;
-	ft_printf("p%c\n", target->name);
+	if (!target->silent)
+		ft_printf("p%c\n", target->name);
 }
 
 void	rotate(t_stack *stack)
@@ -57,7 +59,8 @@ void	rotate(t_stack *stack)
 	if (!stack || stack->size < 2)
 		return ;
 	stack->head = stack->head->next;
-	ft_printf("r%c\n", stack->name);
+	if (!stack->silent)
+		ft_printf("r%c\n", stack->name);
 }
 
 void	rrotate(t_stack *stack)
@@ -65,5 +68,6 @@ void	rrotate(t_stack *stack)
 	if (!stack || stack->size < 2)
 		return ;
 	stack->head = stack->head->prev;
-	ft_printf("rr%c\n", stack->name);
+	if (!stack->silent)
+		ft_printf("rr%c\n", stack->name);
 }

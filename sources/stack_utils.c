@@ -6,19 +6,20 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:15:23 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 23:25:39 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/10 00:17:54 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	new_stack(char name)
+t_stack	new_stack(char name, bool silent)
 {
 	t_stack	stack;
 
 	stack.name = name;
 	stack.head = NULL;
 	stack.size = 0;
+	stack.silent = silent;
 	return (stack);
 }
 

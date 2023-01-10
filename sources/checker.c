@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 23:27:15 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/10 01:09:39 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ static bool	run_instructions(t_stack *a, t_stack *b)
 	line = get_next_line(0);
 	while (line)
 	{
-		if (!ft_strncmp(line, "\n", 2))
-			return (free(line), EXIT_SUCCESS);
+		if (*line == '\n')
+		{
+			ft_printf("\033[1A");
+			free(line);
+			break ;
+		}
 		if (run_instruction(line, a, b))
 			return (free(line), EXIT_FAILURE);
 		free(line);
@@ -65,8 +69,8 @@ int	main(int argc, char const *argv[])
 
 	if (argc == 1)
 		return (EXIT_SUCCESS);
-	a = new_stack('a');
-	b = new_stack('b');
+	a = new_stack('a', true);
+	b = new_stack('b', true);
 	if (parse_args(&a, argc, argv) || run_instructions(&a, &b))
 	{
 		clear_nodes(&a);
@@ -74,7 +78,6 @@ int	main(int argc, char const *argv[])
 		ft_dprintf(2, "Error\n");
 		return (EXIT_FAILURE);
 	}
-	ft_printf("\033[1A");
 	if (b.size == 0 && is_sorted(&a))
 		ft_printf("OK\n");
 	else

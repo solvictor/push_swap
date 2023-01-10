@@ -26,9 +26,10 @@ typedef struct s_node {
 }				t_node;
 
 typedef struct s_stack {
-	t_node	*head;
 	char	name;
 	size_t	size;
+	t_node	*head;
+	bool	silent;
 }				t_stack;
 
 // Parsing
@@ -42,7 +43,7 @@ void	push(t_stack *sender, t_stack *target);
 
 // Stack manipulation
 t_node	*new_node(int data);
-t_stack	new_stack(char name);
+t_stack	new_stack(char name, bool silent);
 void	clear_nodes(t_stack *stack);
 void	cicrular_doubly_list_addback(t_node **list, t_node *new);
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new);

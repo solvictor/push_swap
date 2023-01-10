@@ -79,8 +79,8 @@ int	main(int argc, char const *argv[])
 	t_stack	a;
 	t_stack	b;
 
-	a = new_stack('a');
-	b = new_stack('b');
+	a = new_stack('a', false);
+	b = new_stack('b', false);
 	if (parse_args(&a, argc, argv))
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
 	sort(&a, &b);
