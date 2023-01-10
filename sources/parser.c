@@ -6,23 +6,24 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/09 23:36:47 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/10 23:49:28 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static bool	parse_int_one_arg(char const *str, int *dst, int *i)
+static bool	parse_int(char const *str, int *dst, int *i)
 {
 	long	value;
 	int		sign;
 
 	value = 0;
-	sign = 1;
-	if (str[*i] == '-')
+	sign = 1 - 2 * (str[*i] == '-');
+	if (str[*i] == '-' || str[*i] == '+')
 	{
 		(*i)++;
-		sign = -1;
+		if (str[*i] < '0' || str[*i] > '9')
+			return (EXIT_FAILURE);
 	}
 	while (str[*i] && str[*i] != ' ')
 	{
@@ -47,7 +48,7 @@ static bool	parse_arg(t_stack *stack, char const *str)
 	i = 0;
 	while (str[i])
 	{
-		if (parse_int_one_arg(str, &parsed, &i) || in_list(stack->head, parsed))
+		if (parse_int(str, &parsed, &i) || in_list(stack->head, parsed))
 			return (clear_nodes(stack), EXIT_FAILURE);
 		new = new_node(parsed);
 		if (!new)
