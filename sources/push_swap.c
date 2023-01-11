@@ -12,57 +12,56 @@
 
 #include "push_swap.h"
 
-static void	quick_sort(t_stack *A, t_stack *B)
+static int	get_pos(t_stack *stack, t_node *n)
 {
-	int	pivot;
+	t_node	*tmp;
+	int		pos;
 
-	if (A->size < 2)
-		return ;
-	pivot = A->head->data;
-	while (A->size > 1)
+	if (n == stack->head)
+		return (0);
+	pos = 0;
+	tmp = stack->head->next;
+	while (tmp != n)
 	{
-		if (A->head->data < pivot)
-			push(A, B);
-		else
-		{
-			rotate(A);
-			push(A, B);
-			rrotate(B);
-		}
+		if (tmp == stack->head)
+			return (-1);
+		tmp = tmp->next;
+		pos++;
 	}
-	quick_sort(B, A);
-	while (B->size > 0)
-	{
-		push(B, A);
-		rotate(A);
-	}
+	return (pos);
 }
 
-static void	_sort(t_stack *a, t_stack *b)
+static void	alguez(t_stack *a, t_stack *b)
 {
 	t_node	*min;
 	t_node	*tmp;
+	void	(*r)(t_stack *);
 
-	while (b->size || !is_sorted(a))
+	while (a->size > 1)
 	{
-		if (a->size)
+		tmp = a->head->next;
+		min = a->head;
+		while (tmp != a->head)
 		{
-			tmp = a->head->next;
-			min = a->head;
-			while (tmp != a->head)
-			{
-				if (tmp->data < min->data)
-					min = tmp;
-				tmp = tmp->next;
-			}
-			while (min != a->head)
-				rotate(a);
-			push(a, b);
+			if (tmp->data < min->data)
+				min = tmp;
+			tmp = tmp->next;
 		}
+		if (get_pos(a, min) * 2 > (int) a->size)
+			r = &rrotate;
 		else
-			while (b->size)
-				push(b, a);
+			r = &rotate;
+		while (min != a->head)
+			r(a);
+		push(a, b);
 	}
+	while (b->size)
+		push(b, a);
+}
+
+static void	sort_small(t_stack *a, t_stack *b)
+{
+	
 }
 
 static void	sort(t_stack *a, t_stack *b)
@@ -71,7 +70,9 @@ static void	sort(t_stack *a, t_stack *b)
 		return ;
 	if (a->size == 2)
 		return ((void) ft_printf("sa\n"));
-	_sort(a, b);
+	if (a->size < 6)
+		return (sort_small(a, b));
+	alguez(a, b);
 }
 
 int	main(int argc, char const *argv[])
