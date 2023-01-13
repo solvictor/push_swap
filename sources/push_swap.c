@@ -31,6 +31,34 @@ static int	get_pos(t_stack *stack, t_node *n)
 	return (pos);
 }
 
+static void	to_head(t_stack *stack, t_node *element)
+{
+	void	(*r)(t_stack *);
+
+	if (!stack || !element || stack->size < 2)
+		return ;
+	if (get_pos(stack, element) * 2 > (int) stack->size)
+		r = &rrotate;
+	else
+		r = &rotate;
+	while (element != stack->head)
+		r(stack);
+}
+
+static void	to_tail(t_stack *stack, t_node *element)
+{
+	void	(*r)(t_stack *);
+
+	if (!stack || !element || stack->size < 2)
+		return ;
+	if (get_pos(stack, element) * 2 > (int) stack->size)
+		r = &rrotate;
+	else
+		r = &rotate;
+	while (element != stack->head->prev)
+		r(stack);
+}
+
 static void	alguez(t_stack *a, t_stack *b)
 {
 	t_node	*min;
@@ -47,21 +75,43 @@ static void	alguez(t_stack *a, t_stack *b)
 				min = tmp;
 			tmp = tmp->next;
 		}
-		if (get_pos(a, min) * 2 > (int) a->size)
-			r = &rrotate;
-		else
-			r = &rotate;
-		while (min != a->head)
-			r(a);
+		to_head(a, min);
 		push(a, b);
 	}
 	while (b->size)
 		push(b, a);
 }
 
+static void	quick_sort(t_stack *a, t_stack *b)
+{
+	t_node	*pivot;
+	t_node	*tmp;
+	size_t	i;
+	size_t	size;
+
+	if (a->size < 2)
+		return ;
+	pivot = a->head->prev->prev;
+	// Deplacer tout les elements inferieurs a pivot dans b (ca a l'air bon)
+	i = 0;
+	size = a->size;
+	while (i < size)
+	{
+		while (i < size && a->head->data < pivot->data)
+		{
+			push(a, b);
+			i++;
+		}
+		rotate(a);
+		i++;
+	}
+	print_stack(a);
+	print_stack(b);
+}
+
 static void	sort_small(t_stack *a, t_stack *b)
 {
-	
+
 }
 
 static void	sort(t_stack *a, t_stack *b)
@@ -72,7 +122,8 @@ static void	sort(t_stack *a, t_stack *b)
 		return ((void) ft_printf("sa\n"));
 	if (a->size < 6)
 		return (sort_small(a, b));
-	alguez(a, b);
+	//alguez(a, b);
+	quick_sort(a, b);
 }
 
 int	main(int argc, char const *argv[])

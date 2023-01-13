@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/08 23:38:29 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/13 13:54:04 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,24 @@ bool	in_list(t_node *list, int data)
 		list = list->next;
 	}
 	return (false);
+}
+
+void	refresh_indexes(t_stack *stack)
+{
+	size_t	i;
+	t_node	*tmp;
+
+	if (!stack || !stack->head)
+		return ;
+	stack->head->index = 0;
+	i = 1;
+	tmp = stack->head->next;
+	while (tmp != stack->head)
+	{
+		tmp->index = i;
+		tmp = tmp->next;
+		i++;
+	}
 }
 
 void	print_stack(t_stack *stack)
