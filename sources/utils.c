@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/16 16:17:11 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/20 21:53:02 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,25 @@ void	refresh_indexes(t_stack *stack)
 		tmp = tmp->next;
 		i++;
 	}
+}
+
+void	list_add_sorted(t_node **list, t_node *new)
+{
+	t_node	*tmp;
+
+	if (!list)
+		return ;
+	if (!*list || (*list)->data >= new->data)
+	{
+		new->next = *list;
+		*list = new;
+		return ;
+	}
+	tmp = *list;
+	while (tmp->next && tmp->next->data < new->data)
+		tmp = tmp->next;
+	new->next = tmp->next;
+	tmp->next = new;
 }
 
 void	print_stack(t_stack *stack)

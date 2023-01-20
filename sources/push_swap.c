@@ -92,10 +92,20 @@ static void	alguez(t_stack *a, t_stack *b)
 		push(b, a);
 }
 
+static int	get_at(t_node *list, size_t index)
+{
+	t_node	*tmp;
+
+	tmp = list;
+	while (index-- && tmp->next)
+		tmp = tmp->next;
+	return (tmp->data);
+}
+
 static void	quick_sort(t_stack *a, t_stack *b, size_t size)
 {
-	t_node	*pivot;
 	t_node	*tmp;
+	int		pivot;
 	size_t	i;
 	size_t	remain;
 
@@ -103,12 +113,12 @@ static void	quick_sort(t_stack *a, t_stack *b, size_t size)
 		return ;
 	if (size > 2)
 	{
-		pivot = a->head->prev->prev;
+		pivot = get_at(a->sorted, a->size / 2);
 		i = 0;
 		remain = 0;
 		while (i < size)
 		{
-			if (a->head->data < pivot->data)
+			if (a->head->data < pivot)
 				push(a, b);
 			else
 			{
@@ -117,8 +127,11 @@ static void	quick_sort(t_stack *a, t_stack *b, size_t size)
 			}
 			i++;
 		}
-		print_stack(a);
-		print_stack(b);
+		i = remain;
+		if (remain != a->size)
+			while (i--)
+				rrotate(a);
+		
 		return ;
 	}
 	if (a->head->data > a->head->next->data)
@@ -180,7 +193,8 @@ int	main(int argc, char const *argv[])
 	b = new_stack('b', false);
 	if (parse_args(&a, argc, argv))
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
-	sort(&a, &b);
+	//sort(&a, &b);
+	ft_printf("%d\n", get_at(a.sorted, a.size / 2));
 	clear_nodes(&a);
 	clear_nodes(&b);
 	return (EXIT_SUCCESS);

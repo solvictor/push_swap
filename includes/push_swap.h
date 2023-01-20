@@ -47,6 +47,7 @@ void	push(t_stack *sender, t_stack *target);
 t_node	*new_node(int data);
 t_stack	new_stack(char name, bool silent);
 void	clear_nodes(t_stack *stack);
+void	list_add_sorted(t_node **list, t_node *new);
 void	cicrular_doubly_list_addback(t_node **list, t_node *new);
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new);
 

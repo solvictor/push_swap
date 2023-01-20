@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:15:23 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/10 00:17:54 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/20 21:23:41 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_stack	new_stack(char name, bool silent)
 
 	stack.name = name;
 	stack.head = NULL;
+	stack.sorted = NULL;
 	stack.size = 0;
 	stack.silent = silent;
 	return (stack);
@@ -78,9 +79,8 @@ void	clear_nodes(t_stack *stack)
 
 	if (!stack->head)
 		return ;
-	list = stack->head;
-	first = list;
-	list = list->next;
+	first = stack->head;
+	list = first->next;
 	while (list != first)
 	{
 		tmp = list->next;
@@ -88,5 +88,11 @@ void	clear_nodes(t_stack *stack)
 		list = tmp;
 	}
 	free(first);
-	stack->head = NULL;
+	list = stack->sorted;
+	while (list)
+	{
+		tmp = list->next;
+		free(list);
+		list = tmp;
+	}
 }
