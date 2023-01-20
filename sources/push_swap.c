@@ -92,31 +92,37 @@ static void	alguez(t_stack *a, t_stack *b)
 		push(b, a);
 }
 
-static void	quick_sort(t_stack *a, t_stack *b)
+static void	quick_sort(t_stack *a, t_stack *b, size_t size)
 {
 	t_node	*pivot;
 	t_node	*tmp;
 	size_t	i;
-	size_t	size;
+	size_t	remain;
 
-	if (a->size < 2)
+	if (size < 2)
 		return ;
-	pivot = a->head->prev->prev;
-	// Deplacer tout les elements inferieurs a pivot dans b (ca a l'air bon)
-	i = 0;
-	size = a->size;
-	while (i < size)
+	if (size > 2)
 	{
-		while (i < size && a->head->data < pivot->data)
+		pivot = a->head->prev->prev;
+		i = 0;
+		remain = 0;
+		while (i < size)
 		{
-			push(a, b);
+			if (a->head->data < pivot->data)
+				push(a, b);
+			else
+			{
+				rotate(a);
+				remain++;
+			}
 			i++;
 		}
-		rotate(a);
-		i++;
+		print_stack(a);
+		print_stack(b);
+		return ;
 	}
-	print_stack(a);
-	print_stack(b);
+	if (a->head->data > a->head->next->data)
+		swap(a);
 }
 
 static void	sort_three(t_stack *s)

@@ -29,8 +29,9 @@ typedef struct s_node {
 typedef struct s_stack {
 	char	name;
 	size_t	size;
-	t_node	*head;
 	bool	silent;
+	t_node	*head;
+	t_node	*sorted;
 }				t_stack;
 
 // Parsing
