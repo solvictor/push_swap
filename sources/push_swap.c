@@ -77,6 +77,24 @@ static t_node	*get_min(t_stack *stack)
 	return (min);
 }
 
+static t_node	*get_max(t_stack *stack)
+{
+	t_node	*max;
+	t_node	*tmp;
+
+	if (!stack || !stack->size)
+		return (NULL);
+	max = stack->head;
+	tmp = stack->head->next;
+	while (tmp != stack->head)
+	{
+		if (tmp->data > max->data)
+			max = tmp;
+		tmp = tmp->next;
+	}
+	return (max);
+}
+
 static void	alguez(t_stack *a, t_stack *b)
 {
 	t_node	*min;
