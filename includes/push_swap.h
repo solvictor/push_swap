@@ -31,10 +31,10 @@ typedef struct s_stack {
 	size_t	size;
 	bool	silent;
 	t_node	*head;
-	t_node	*sorted;
 }				t_stack;
 
 // Parsing
+bool	presort(t_stack *stack, t_stack *sorted);
 bool	parse_args(t_stack *stack, int argc, char const *argv[]);
 
 // Instructions

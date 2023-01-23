@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 23:01:44 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/20 21:25:00 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/22 23:23:00 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ static bool	parse_arg(t_stack *stack, char const *str)
 		if (!new)
 			return (clear_nodes(stack), EXIT_FAILURE);
 		cicrular_doubly_list_addback(&stack->head, new);
-		new = new_node(parsed);
-		if (!new)
-			return (clear_nodes(stack), EXIT_FAILURE);
-		list_add_sorted(&stack->sorted, new);
 		stack->size++;
 		while (str[i] == ' ')
 			i++;
@@ -73,5 +69,26 @@ bool	parse_args(t_stack *stack, int argc, char const *argv[])
 	while (i < argc)
 		if (parse_arg(stack, argv[i++]))
 			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+bool	presort(t_stack *stack, t_stack *sorted)
+{
+	size_t	i;
+	t_node	*tmp;
+	t_node	*new;
+
+	i = 0;
+	tmp = stack->head;
+	while (i < stack->size)
+	{
+		new = new_node(tmp->data);
+		if (!new)
+			return (clear_nodes(stack), clear_nodes(sorted), EXIT_FAILURE);
+		list_add_sorted(&sorted->head, new);
+		tmp = tmp->next;
+		i++;
+	}
+	sorted->size = stack->size;
 	return (EXIT_SUCCESS);
 }
