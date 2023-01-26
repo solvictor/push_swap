@@ -30,8 +30,8 @@ WHITE		=	\033[0;97m
 
 # Sources
 
-SRC_FILES	=	push_swap parser instructions utils stack_utils
-SRC_B_FILES	=	checker parser instructions utils stack_utils
+SRC_FILES	=	push_swap parser instructions sorting utils stack_utils checks
+SRC_B_FILES	=	checker parser instructions utils stack_utils checks
 
 
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))

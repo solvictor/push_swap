@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/10 01:28:36 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/25 20:23:03 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char const *argv[])
 		ft_dprintf(2, "Error\n");
 		return (EXIT_FAILURE);
 	}
-	if (b.size == 0 && is_sorted(&a))
+	if (b.size == 0 && is_sorted(&a, a.size, &ascending))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");

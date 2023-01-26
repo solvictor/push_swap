@@ -6,63 +6,39 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/20 21:53:02 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/26 00:20:00 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-bool	is_sorted(t_stack *stack)
+int	get_pos(t_stack *stack, t_node *n)
 {
-	t_node	*list;
+	t_node	*tmp;
+	int		pos;
 
-	list = stack->head;
-	if (!list)
-		return (true);
-	while (list->next != stack->head)
+	if (n == stack->head)
+		return (0);
+	pos = 0;
+	tmp = stack->head->next;
+	while (tmp != n)
 	{
-		if (list->data > list->next->data)
-			return (false);
-		list = list->next;
+		if (tmp == stack->head)
+			return (-1);
+		tmp = tmp->next;
+		pos++;
 	}
-	return (true);
+	return (pos);
 }
 
-bool	in_list(t_node *list, int data)
+int	get_at(t_stack *stack, size_t index)
 {
-	t_node	*first;
-
-	if (!list)
-		return (false);
-	if (list->data == data)
-		return (true);
-	first = list;
-	list = first->next;
-	while (list != first)
-	{
-		if (list->data == data)
-			return (true);
-		list = list->next;
-	}
-	return (false);
-}
-
-void	refresh_indexes(t_stack *stack)
-{
-	size_t	i;
 	t_node	*tmp;
 
-	if (!stack || !stack->head)
-		return ;
-	stack->head->index = 0;
-	i = 1;
-	tmp = stack->head->next;
-	while (tmp != stack->head)
-	{
-		tmp->index = i;
+	tmp = stack->head;
+	while (index-- && tmp->next)
 		tmp = tmp->next;
-		i++;
-	}
+	return (tmp->data);
 }
 
 void	list_add_sorted(t_node **list, t_node *new)
@@ -89,16 +65,19 @@ void	print_stack(t_stack *stack)
 	size_t	i;
 	t_node	*current;
 
+	ft_printf("Stack %c: ", stack->name);
 	if (!stack->head)
+	{
+		ft_printf("Empty\n");
 		return ;
+	}
 	i = 0;
-	ft_dprintf(2, "Stack %c: ", stack->name);
 	current = stack->head;
 	while (i < stack->size)
 	{
-		ft_dprintf(2, "%d ", current->data);
+		ft_printf("%d ", current->data);
 		current = current->next;
 		i++;
 	}
-	ft_dprintf(2, "\n");
+	ft_printf("\n");
 }
