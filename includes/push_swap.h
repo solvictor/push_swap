@@ -42,7 +42,7 @@ typedef struct s_push_swap {
 	t_stack			a;
 	t_stack			b;
 	t_stack			sorted;
-	unsigned char	opti;
+	unsigned char	prec;
 }				t_push_swap;
 
 // Parsing
@@ -50,13 +50,13 @@ bool	presort(t_stack *stack, t_stack *sorted);
 bool	parse_args(t_stack *stack, int argc, char const *argv[]);
 
 // Instructions
-void	swap(t_stack *stack);
-void	rotate(t_stack *stack);
-void	rrotate(t_stack *stack);
-void	push(t_stack *sender, t_stack *target);
+void	swap(t_push_swap *ps, t_stack *stack);
+void	rotate(t_push_swap *ps, t_stack *stack);
+void	rrotate(t_push_swap *ps, t_stack *stack);
+void	push(t_push_swap *ps, t_stack *sender, t_stack *target);
 
 // Sorting
-void	sort_small(t_stack *a, t_stack *b);
+void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b);
 void	quick_sort(t_push_swap *ps, size_t size, size_t left);
 
 // Stack manipulation

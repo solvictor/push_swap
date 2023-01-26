@@ -19,7 +19,7 @@ static void	sort(t_push_swap *ps)
 	if (ps->a.size == 2)
 		return ((void) ft_printf("sa\n"));
 	if (ps->a.size < 6)
-		return (sort_small(&ps->a, &ps->b));
+		return (sort_small(ps, &ps->a, &ps->b));
 	quick_sort(ps, ps->a.size, 0);
 }
 
@@ -27,7 +27,7 @@ int	main(int argc, char const *argv[])
 {
 	t_push_swap	ps;
 
-	ps.opti = 0;
+	ps.prec = 0;
 	ps.a = new_stack('a', false);
 	ps.b = new_stack('b', false);
 	ps.sorted = new_stack('s', true);
