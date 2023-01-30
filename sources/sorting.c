@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:52:34 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/26 18:35:03 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/30 14:11:00 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,23 @@ void	quick_sort(t_push_swap *ps, size_t size, size_t left)
 			rrotate(ps, &ps->a);
 	quick_sort(ps, remain, left + (size - remain));
 	quick_sort_b(ps, size - remain, left);
+}
+
+void	frac_sort(t_push_swap *ps)
+{
+	const int	tier1max = get_at(&ps->sorted, ps->sorted.size / 3);
+	const int	tier2max = get_at(&ps->sorted, ps->sorted.size / 3 * 2);
+
+	while (ps->a.size > 3)
+	{
+		if (ps->a.head->data < tier2max)
+		{
+			swap(ps, &ps->a);
+			if (ps->b.head->data < tier1max)
+				rotate(ps, &ps->b);
+		}
+		else
+			rotate(ps, &ps->a);
+	}
+	sort_three(ps, &ps->a, &ascending);
 }
