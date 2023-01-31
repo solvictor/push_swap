@@ -18,9 +18,9 @@ static void	sort(t_push_swap *ps)
 		return ;
 	if (ps->a.size == 2)
 		return ((void) ft_printf("sa\n"));
-	if (ps->a.size < 6)
+	if (ps->a.size < 4)
 		return (sort_small(ps, &ps->a, &ps->b));
-	quick_sort(ps, ps->a.size, 0);
+	frac_sort(ps);
 }
 
 int	main(int argc, char const *argv[])

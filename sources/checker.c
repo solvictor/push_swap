@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 21:59:10 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/25 20:23:03 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/30 22:53:42 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 static bool	run_instruction(char *instruction, t_stack *a, t_stack *b)
 {
 	if (!ft_strncmp(instruction, "sa\n", 4))
-		swap(a);
+		swap(NULL, a);
 	else if (!ft_strncmp(instruction, "sb\n", 4))
-		swap(b);
+		swap(NULL, b);
 	else if (!ft_strncmp(instruction, "ss\n", 4))
-		(swap(a), swap(b));
+		(swap(NULL, a), swap(NULL, b));
 	else if (!ft_strncmp(instruction, "pa\n", 4))
-		push(b, a);
+		push(NULL, b, a);
 	else if (!ft_strncmp(instruction, "pb\n", 4))
-		push(a, b);
+		push(NULL, a, b);
 	else if (!ft_strncmp(instruction, "ra\n", 4))
-		rotate(a);
+		rotate(NULL, a);
 	else if (!ft_strncmp(instruction, "rb\n", 4))
-		rotate(b);
+		rotate(NULL, b);
 	else if (!ft_strncmp(instruction, "rr\n", 4))
-		(rotate(a), rotate(b));
+		(rotate(NULL, a), rotate(NULL, b));
 	else if (!ft_strncmp(instruction, "rra\n", 5))
-		rrotate(a);
+		rrotate(NULL, a);
 	else if (!ft_strncmp(instruction, "rrb\n", 5))
-		rrotate(b);
+		rrotate(NULL, b);
 	else if (!ft_strncmp(instruction, "rrr\n", 5))
-		(rrotate(a), rrotate(b));
+		(rrotate(NULL, a), rrotate(NULL, b));
 	else
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

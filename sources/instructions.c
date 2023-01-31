@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/26 18:36:49 by vegret           ###   ########.fr       */
+/*   Updated: 2023/01/30 22:53:09 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	swap(t_push_swap *ps, t_stack *stack)
 	second->next = first;
 	first->prev = second;
 	stack->head = second;
-	if (!stack->silent)
+	if (!stack->silent && ps)
 	{
 		if (ps->prec & RA)
 			ft_printf("ra\n");
@@ -71,7 +71,7 @@ void	push(t_push_swap *ps, t_stack *sender, t_stack *target)
 	sender->size--;
 	cicrular_doubly_list_addfront(&target->head, first);
 	target->size++;
-	if (!target->silent)
+	if (!target->silent && ps)
 	{
 		if (ps->prec & SA)
 			ft_printf("sa\n");
@@ -95,7 +95,7 @@ void	rotate(t_push_swap *ps, t_stack *stack)
 	if (!stack || stack->size < 2)
 		return ;
 	stack->head = stack->head->next;
-	if (!stack->silent)
+	if (!stack->silent && ps)
 	{
 		if (ps->prec & SA)
 			ft_printf("sa\n");
@@ -125,7 +125,7 @@ void	rrotate(t_push_swap *ps, t_stack *stack)
 	if (!stack || stack->size < 2)
 		return ;
 	stack->head = stack->head->prev;
-	if (!stack->silent)
+	if (!stack->silent && ps)
 	{
 		if (ps->prec & SA)
 			ft_printf("sa\n");

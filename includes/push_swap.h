@@ -56,8 +56,8 @@ void	rrotate(t_push_swap *ps, t_stack *stack);
 void	push(t_push_swap *ps, t_stack *sender, t_stack *target);
 
 // Sorting
+void	frac_sort(t_push_swap *ps);
 void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b);
-void	quick_sort(t_push_swap *ps, size_t size, size_t left);
 
 // Stack manipulation
 t_node	*new_node(int data);
