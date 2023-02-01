@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:52:34 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/30 23:41:12 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/01 01:19:58 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,18 @@ static void	split(t_push_swap *ps, size_t nb_frac)
 	}
 }
 
+//static size_t	move_count(t_push_swap *ps, t_node *node)
+//{
+//	const size_t	rb = get_pos(&ps->b, node);
+//	const size_t	rrb = ps->b.size - rb;
+//	size_t			ra;
+//	size_t			rra;
+
+//	ra = 0;
+//	rra = 0;
+	
+//}
+
 //static t_node	*less_moves(t_push_swap *ps, t_stack *s)
 //{
 //	t_node	*best;
@@ -115,7 +127,7 @@ static void	split(t_push_swap *ps, size_t nb_frac)
 //	tmp = s->head->next;
 //	while (tmp != s->head)
 //	{
-//		if (ops(best) > ops(tmp))
+//		if (move_count(best) > move_count(tmp))
 //			best = tmp;
 //		tmp = tmp->next;
 //	}
@@ -129,24 +141,13 @@ void	frac_sort(t_push_swap *ps)
 	split(ps, 3);
 	sort_three(ps, &ps->a, &ascending);
 	// phase 2
-	while (ps->b.size)
-	{
-		best = less_moves(ps, &ps->b);
-		ops(best);
-		push(ps, &ps->b, &ps->a);
-	}
+	//while (ps->b.size)
+	//{
+	//	best = less_moves(ps, &ps->b);
+	//	move_count(best);
+	//	push(ps, &ps->b, &ps->a);
+	//}
 	to_head(ps, &ps->a, get_min(&ps->a));
 	// end
-	if (ps->prec & SA)
-		swap(ps, &ps->a);
-	if (ps->prec & SB)
-		swap(ps, &ps->b);
-	if (ps->prec & RA)
-		rotate(ps, &ps->a);
-	if (ps->prec & RB)
-		rotate(ps, &ps->b);
-	if (ps->prec & RRA)
-		rrotate(ps, &ps->a);
-	if (ps->prec & RRB)
-		rrotate(ps, &ps->b);
+	print_prec(ps, 0);
 }

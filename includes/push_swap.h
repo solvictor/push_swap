@@ -39,10 +39,10 @@ typedef struct s_stack {
 }				t_stack;
 
 typedef struct s_push_swap {
-	t_stack			a;
-	t_stack			b;
-	t_stack			sorted;
-	unsigned char	prec;
+	t_stack	a;
+	t_stack	b;
+	t_stack	sorted;
+	int		prec;
 }				t_push_swap;
 
 // Parsing
@@ -54,6 +54,7 @@ void	swap(t_push_swap *ps, t_stack *stack);
 void	rotate(t_push_swap *ps, t_stack *stack);
 void	rrotate(t_push_swap *ps, t_stack *stack);
 void	push(t_push_swap *ps, t_stack *sender, t_stack *target);
+void	print_prec(t_push_swap *ps, int action);
 
 // Sorting
 void	frac_sort(t_push_swap *ps);

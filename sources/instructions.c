@@ -6,11 +6,40 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 03:16:22 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/30 22:53:09 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/01 01:32:05 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	print_prec(t_push_swap *ps, int cur)
+{
+	int	match;
+
+	match = 0;
+	if (ps->prec == SA && cur != SB)
+		ft_printf("sa\n");
+	if (ps->prec == SB && cur != SA)
+		ft_printf("sb\n");
+	if (ps->prec == RA && cur != RB)
+		ft_printf("ra\n");
+	if (ps->prec == RB && cur != RA)
+		ft_printf("rb\n");
+	if (ps->prec == RRA && cur != RRB)
+		ft_printf("rra\n");
+	if (ps->prec == RRB && cur != RRA)
+		ft_printf("rrb\n");
+	if ((ps->prec == SA && cur == SB) || (ps->prec == SB && cur == SA))
+		match = ft_printf("ss\n");
+	if ((ps->prec == RA && cur == RB) || (ps->prec == RB && cur == RA))
+		match = ft_printf("rr\n");
+	if ((ps->prec == RRA && cur == RRB) || (ps->prec == RRB && cur == RRA))
+		match = ft_printf("rrr\n");
+	if (match)
+		ps->prec = 0;
+	else
+		ps->prec = cur;
+}
 
 void	swap(t_push_swap *ps, t_stack *stack)
 {
@@ -29,28 +58,7 @@ void	swap(t_push_swap *ps, t_stack *stack)
 	first->prev = second;
 	stack->head = second;
 	if (!stack->silent && ps)
-	{
-		if (ps->prec & RA)
-			ft_printf("ra\n");
-		if (ps->prec & RB)
-			ft_printf("rb\n");
-		if (ps->prec & RRA)
-			ft_printf("rra\n");
-		if (ps->prec & RRB)
-			ft_printf("rrb\n");
-		if (((ps->prec & SA) && stack->name == 'b')
-			|| ((ps->prec & SB) && stack->name == 'a'))
-		{
-			ft_printf("ss\n");
-			ps->prec = 0;
-			return ;
-		}
-		if (ps->prec & SA)
-			ft_printf("sa\n");
-		if (ps->prec & SB)
-			ft_printf("sb\n");
-		ps->prec = SA * (stack->name == 'a') + SB * (stack->name == 'b');
-	}
+		print_prec(ps, SA * (stack->name == 'a') + SB * (stack->name == 'b'));
 }
 
 void	push(t_push_swap *ps, t_stack *sender, t_stack *target)
@@ -73,19 +81,7 @@ void	push(t_push_swap *ps, t_stack *sender, t_stack *target)
 	target->size++;
 	if (!target->silent && ps)
 	{
-		if (ps->prec & SA)
-			ft_printf("sa\n");
-		if (ps->prec & SB)
-			ft_printf("sb\n");
-		if (ps->prec & RA)
-			ft_printf("ra\n");
-		if (ps->prec & RB)
-			ft_printf("rb\n");
-		if (ps->prec & RRA)
-			ft_printf("rra\n");
-		if (ps->prec & RRB)
-			ft_printf("rrb\n");
-		ps->prec = 0;
+		print_prec(ps, 0);
 		ft_printf("p%c\n", target->name);
 	}
 }
@@ -96,28 +92,7 @@ void	rotate(t_push_swap *ps, t_stack *stack)
 		return ;
 	stack->head = stack->head->next;
 	if (!stack->silent && ps)
-	{
-		if (ps->prec & SA)
-			ft_printf("sa\n");
-		if (ps->prec & SB)
-			ft_printf("sb\n");
-		if (ps->prec & RRA)
-			ft_printf("rra\n");
-		if (ps->prec & RRB)
-			ft_printf("rrb\n");
-		if (((ps->prec & RA) && stack->name == 'b')
-			|| ((ps->prec & RB) && stack->name == 'a'))
-		{
-			ft_printf("rr\n");
-			ps->prec = 0;
-			return ;
-		}
-		if (ps->prec & RA)
-			ft_printf("ra\n");
-		if (ps->prec & RB)
-			ft_printf("rb\n");
-		ps->prec = RA * (stack->name == 'a') + RB * (stack->name == 'b');
-	}
+		print_prec(ps, RA * (stack->name == 'a') + RB * (stack->name == 'b'));
 }
 
 void	rrotate(t_push_swap *ps, t_stack *stack)
@@ -126,26 +101,5 @@ void	rrotate(t_push_swap *ps, t_stack *stack)
 		return ;
 	stack->head = stack->head->prev;
 	if (!stack->silent && ps)
-	{
-		if (ps->prec & SA)
-			ft_printf("sa\n");
-		if (ps->prec & SB)
-			ft_printf("sb\n");
-		if (ps->prec & RA)
-			ft_printf("ra\n");
-		if (ps->prec & RB)
-			ft_printf("rb\n");
-		if (((ps->prec & RRA) && stack->name == 'b')
-			|| ((ps->prec & RRB) && stack->name == 'a'))
-		{
-			ft_printf("rrr\n");
-			ps->prec = 0;
-			return ;
-		}
-		if (ps->prec & RRA)
-			ft_printf("rra\n");
-		if (ps->prec & RRB)
-			ft_printf("rrb\n");
-		ps->prec = RRA * (stack->name == 'a') + RRB * (stack->name == 'b');
-	}
+		print_prec(ps, RRA * (stack->name == 'a') + RRB * (stack->name == 'b'));
 }
