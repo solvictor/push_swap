@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:52:34 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/01 01:19:58 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/02 02:08:29 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,37 +102,109 @@ static void	split(t_push_swap *ps, size_t nb_frac)
 	}
 }
 
-//static size_t	move_count(t_push_swap *ps, t_node *node)
-//{
-//	const size_t	rb = get_pos(&ps->b, node);
-//	const size_t	rrb = ps->b.size - rb;
-//	size_t			ra;
-//	size_t			rra;
+static size_t	insert_index(t_stack *stack, int data)
+{
+	t_node	*tmp;
+	size_t	index;
 
-//	ra = 0;
-//	rra = 0;
-	
-//}
+	if (!stack || !stack->size)
+		return (0);
+	index = 0;
+	tmp = stack->head;
+	while (index < stack->size)
+	{
+		if (tmp->data >= data)
+			return (index);
+		index++;
+		tmp = tmp->next;
+	}
+	return (index);
+}
 
-//static t_node	*less_moves(t_push_swap *ps, t_stack *s)
-//{
-//	t_node	*best;
-//	t_node	*tmp;
+static size_t	min(size_t a, size_t b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
 
-//	if (!s->size)
-//		return (NULL);
-//	if (s->size == 1)
-//		return (s->head);
-//	best = s->head;
-//	tmp = s->head->next;
-//	while (tmp != s->head)
-//	{
-//		if (move_count(best) > move_count(tmp))
-//			best = tmp;
-//		tmp = tmp->next;
-//	}
-//	return (best);
-//}
+static size_t	move_count(t_push_swap *ps, t_node *node)
+{
+	const size_t	ra = insert_index(&ps->a, node->data);
+	const size_t	rra = ps->a.size - ra;
+	const size_t	rb = get_pos(&ps->b, node);
+	const size_t	rrb = ps->b.size - rb;
+
+	return (min(ra + rb, min(ra + rrb, min(rra + rb, rra + rrb))));
+}
+
+static t_node	*less_moves(t_push_swap *ps, t_stack *s)
+{
+	t_node	*tmp;
+	t_node	*best;
+	size_t	tmp_count;
+	size_t	best_count;
+
+	if (!s->size)
+		return (NULL);
+	if (s->size == 1)
+		return (s->head);
+	best = s->head;
+	best_count = move_count(ps, best);
+	tmp = s->head->next;
+	while (tmp != s->head)
+	{
+		tmp_count = move_count(ps, tmp);
+		if (tmp_count < best_count)
+		{
+			best = tmp;
+			best_count = tmp_count;
+		}
+		tmp = tmp->next;
+	}
+	ft_printf("best count: %d\n", best_count);
+	move_count(ps, best);
+	return (best);
+}
+
+static void	_insert_a_sorted(t_push_swap *ps, size_t count_a, size_t count_b,
+					void (*a_fun)(t_push_swap *, t_stack *),
+					void (*b_fun)(t_push_swap *, t_stack *))
+{
+	while (count_a || count_b)
+	{
+		if (count_a)
+		{
+			a_fun(ps, &ps->a);
+			count_a--;
+		}
+		if (count_b)
+		{
+			b_fun(ps, &ps->b);
+			count_b--;
+		}
+	}
+}
+
+static void	insert_a_sorted(t_push_swap *ps, t_node *node)
+{
+	const size_t	rb = get_pos(&ps->b, node);
+	const size_t	rrb = ps->b.size - rb;
+	const size_t	ra = insert_index(&ps->a, node->data);
+	const size_t	rra = ps->a.size - ra;
+	void			(*a_fun)(t_push_swap *, t_stack *);
+	void			(*b_fun)(t_push_swap *, t_stack *);
+
+	if (ra < rra)
+		a_fun = &rotate;
+	else
+		a_fun = &rrotate;
+	if (rb < rrb)
+		b_fun = &rotate;
+	else
+		b_fun = &rrotate;
+	_insert_a_sorted(ps, min(ra, rra), min(rb, rrb), a_fun, b_fun);
+}
 
 void	frac_sort(t_push_swap *ps)
 {
@@ -141,12 +213,12 @@ void	frac_sort(t_push_swap *ps)
 	split(ps, 3);
 	sort_three(ps, &ps->a, &ascending);
 	// phase 2
-	//while (ps->b.size)
-	//{
-	//	best = less_moves(ps, &ps->b);
-	//	move_count(best);
-	//	push(ps, &ps->b, &ps->a);
-	//}
+	while (ps->b.size)
+	{
+		best = less_moves(ps, &ps->b);
+		insert_a_sorted(ps, best);
+		push(ps, &ps->b, &ps->a);
+	}
 	to_head(ps, &ps->a, get_min(&ps->a));
 	// end
 	print_prec(ps, 0);
