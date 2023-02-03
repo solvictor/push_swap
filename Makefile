@@ -6,7 +6,7 @@ INCLUDE		= includes
 LIBFT		= libft
 SRC_DIR		= sources/
 OBJ_DIR		= objects/
-CC			= cc
+CC			= gcc
 CFLAGS		= -Wall -Wextra
 RM			= rm -f
 SMAKE		= make --no-print-directory
@@ -30,7 +30,7 @@ WHITE		=	\033[0;97m
 
 # Sources
 
-SRC_FILES	=	push_swap parser instructions sorting utils stack_utils checks
+SRC_FILES	=	push_swap parser instructions sorting sort_small utils stack_utils checks
 SRC_B_FILES	=	checker parser instructions utils stack_utils checks
 
 

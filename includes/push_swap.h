@@ -59,16 +59,19 @@ void	print_prec(t_push_swap *ps, int action);
 // Sorting
 void	frac_sort(t_push_swap *ps);
 void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b);
+void	sort_three(t_push_swap *ps, t_stack *s, bool (*cmp)(int, int));
 
 // Stack manipulation
-t_node	*new_node(int data);
 t_stack	new_stack(char name, bool silent);
 size_t	get_pos(t_stack *stack, t_node *n);
 int		get_at(t_stack *stack, size_t index);
+t_node	*get_min(t_stack *stack);
+t_node	*new_node(int data);
 void	clear_nodes(t_stack *stack);
 void	list_add_sorted(t_node **list, t_node *new);
 void	cicrular_doubly_list_addback(t_node **list, t_node *new);
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new);
+void	to_head(t_push_swap *ps, t_stack *stack, t_node *element);
 
 // Stack checks
 bool	ascending(int src, int next);
