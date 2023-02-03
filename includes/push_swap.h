@@ -63,7 +63,7 @@ void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b);
 // Stack manipulation
 t_node	*new_node(int data);
 t_stack	new_stack(char name, bool silent);
-int		get_pos(t_stack *stack, t_node *n);
+size_t	get_pos(t_stack *stack, t_node *n);
 int		get_at(t_stack *stack, size_t index);
 void	clear_nodes(t_stack *stack);
 void	list_add_sorted(t_node **list, t_node *new);
@@ -75,6 +75,9 @@ bool	ascending(int src, int next);
 bool	descending(int src, int next);
 bool	in_list(t_node *list, int data);
 bool	is_sorted(t_stack *stack, size_t size, bool (*cmp)(int, int));
+
+// Utils
+size_t	smin(size_t a, size_t b);
 
 // Debug stuff
 void	print_stack(t_stack *stack);
