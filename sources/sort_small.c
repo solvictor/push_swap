@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:38:30 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/03 18:46:50 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/05 02:29:07 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_node	*get_min(t_stack *stack)
 
 void	sort_three(t_push_swap *ps, t_stack *s, bool (*cmp)(int, int))
 {
-	if (!s || s->size != 3 || is_sorted(s, 3, cmp))
+	if (!s || s->size > 3 || is_sorted(s, 3, cmp))
 		return ;
 	if (s->head->data > s->head->next->data)
 	{
@@ -76,4 +76,5 @@ void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b)
 	sort_three(ps, a, &ascending);
 	while (b->size)
 		push(ps, b, a);
+	print_prec(ps, 0);
 }
