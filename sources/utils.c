@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 22:15:58 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/03 16:51:50 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/06 00:34:15 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ int	get_at(t_stack *stack, size_t index)
 	return (tmp->data);
 }
 
+t_node	*get_min(t_stack *stack)
+{
+	t_node	*min;
+	t_node	*tmp;
+
+	if (!stack->size)
+		return (NULL);
+	min = stack->head;
+	tmp = stack->head->next;
+	while (tmp != stack->head)
+	{
+		if (tmp->data < min->data)
+			min = tmp;
+		tmp = tmp->next;
+	}
+	return (min);
+}
+
 void	list_add_sorted(t_node **list, t_node *new)
 {
 	t_node	*tmp;
@@ -58,28 +76,6 @@ void	list_add_sorted(t_node **list, t_node *new)
 		tmp = tmp->next;
 	new->next = tmp->next;
 	tmp->next = new;
-}
-
-void	print_stack(t_stack *stack)
-{
-	size_t	i;
-	t_node	*current;
-
-	ft_printf("Stack %c: ", stack->name);
-	if (!stack->head)
-	{
-		ft_printf("Empty\n");
-		return ;
-	}
-	i = 0;
-	current = stack->head;
-	while (i < stack->size)
-	{
-		ft_printf("%d ", current->data);
-		current = current->next;
-		i++;
-	}
-	ft_printf("\n");
 }
 
 size_t	smin(size_t a, size_t b)

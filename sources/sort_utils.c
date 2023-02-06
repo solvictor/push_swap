@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_small.c                                       :+:      :+:    :+:   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:38:30 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/05 02:29:07 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/06 01:19:44 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,26 @@ void	to_head(t_push_swap *ps, t_stack *stack, t_node *element)
 		r(ps, stack);
 }
 
-t_node	*get_min(t_stack *stack)
+void	make_rotations(t_push_swap *ps, t_rotation *rotation)
 {
-	t_node	*min;
-	t_node	*tmp;
-
-	if (!stack->size)
-		return (NULL);
-	min = stack->head;
-	tmp = stack->head->next;
-	while (tmp != stack->head)
+	while (rotation->a_count || rotation->b_count)
 	{
-		if (tmp->data < min->data)
-			min = tmp;
-		tmp = tmp->next;
+		if (rotation->a_count)
+		{
+			rotation->a_fun(ps, &ps->a);
+			rotation->a_count--;
+		}
+		if (rotation->b_count)
+		{
+			rotation->b_fun(ps, &ps->b);
+			rotation->b_count--;
+		}
 	}
-	return (min);
 }
 
 void	sort_three(t_push_swap *ps, t_stack *s, bool (*cmp)(int, int))
 {
-	if (!s || s->size > 3 || is_sorted(s, 3, cmp))
+	if (!s || is_sorted(s, 3, cmp))
 		return ;
 	if (s->head->data > s->head->next->data)
 	{
@@ -63,18 +62,39 @@ void	sort_three(t_push_swap *ps, t_stack *s, bool (*cmp)(int, int))
 	swap(ps, s);
 }
 
-void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b)
+static size_t	insert_index(t_stack *stack, int data)
 {
+	t_node	*tmp;
 	t_node	*min;
+	size_t	index;
 
-	while (a->size > 3)
+	if (!stack || !stack->size)
+		return (0);
+	min = get_min(stack);
+	if (data < min->data || data > min->prev->data)
+		return (get_pos(stack, min));
+	index = 0;
+	tmp = stack->head;
+	while (index < stack->size)
 	{
-		min = get_min(a);
-		to_head(ps, a, min);
-		push(ps, a, b);
+		if (tmp->data > data && tmp->prev->data < data)
+			return (index);
+		index++;
+		tmp = tmp->next;
 	}
-	sort_three(ps, a, &ascending);
-	while (b->size)
-		push(ps, b, a);
-	print_prec(ps, 0);
+	return (index);
+}
+
+/*
+0: ra
+1: rra
+2: rb
+3: rrb
+*/
+void	get_moves(t_push_swap *ps, t_node *node, size_t moves[4])
+{
+	moves[0] = insert_index(&ps->a, node->data);
+	moves[1] = ps->a.size - moves[0];
+	moves[2] = get_pos(&ps->b, node);
+	moves[3] = ps->b.size - moves[2];
 }

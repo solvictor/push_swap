@@ -12,15 +12,6 @@
 
 #include "push_swap.h"
 
-static void	sort(t_push_swap *ps)
-{
-	if (ps->a.size == 1 || is_sorted(&ps->a, ps->a.size, &ascending))
-		return ;
-	if (ps->a.size < 8)
-		return (sort_small(ps, &ps->a, &ps->b));
-	frac_sort(ps);
-}
-
 int	main(int argc, char const *argv[])
 {
 	t_push_swap	ps;
@@ -31,7 +22,8 @@ int	main(int argc, char const *argv[])
 	ps.sorted = new_stack('s', true);
 	if (parse_args(&ps.a, argc, argv) || presort(&ps.a, &ps.sorted))
 		return (ft_dprintf(2, "Error\n"), EXIT_FAILURE);
-	sort(&ps);
+	if (ps.a.size > 1 && !is_sorted(&ps.a, ps.a.size, &ascending))
+		frac_sort(&ps);
 	clear_nodes(&ps.a);
 	clear_nodes(&ps.b);
 	clear_nodes(&ps.sorted);

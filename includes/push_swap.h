@@ -45,6 +45,13 @@ typedef struct s_push_swap {
 	int		prec;
 }				t_push_swap;
 
+typedef struct s_rotation {
+	size_t	a_count;
+	size_t	b_count;
+	void	(*a_fun)(t_push_swap *, t_stack *);
+	void	(*b_fun)(t_push_swap *, t_stack *);
+}				t_rotation;
+
 // Parsing
 bool	presort(t_stack *stack, t_stack *sorted);
 bool	parse_args(t_stack *stack, int argc, char const *argv[]);
@@ -58,14 +65,10 @@ void	print_prec(t_push_swap *ps, int action);
 
 // Sorting
 void	frac_sort(t_push_swap *ps);
-void	sort_small(t_push_swap *ps, t_stack *a, t_stack *b);
 void	sort_three(t_push_swap *ps, t_stack *s, bool (*cmp)(int, int));
 
 // Stack manipulation
 t_stack	new_stack(char name, bool silent);
-size_t	get_pos(t_stack *stack, t_node *n);
-int		get_at(t_stack *stack, size_t index);
-t_node	*get_min(t_stack *stack);
 t_node	*new_node(int data);
 void	clear_nodes(t_stack *stack);
 void	list_add_sorted(t_node **list, t_node *new);
@@ -80,9 +83,11 @@ bool	in_list(t_node *list, int data);
 bool	is_sorted(t_stack *stack, size_t size, bool (*cmp)(int, int));
 
 // Utils
+int		get_at(t_stack *stack, size_t index);
+t_node	*get_min(t_stack *stack);
 size_t	smin(size_t a, size_t b);
-
-// Debug stuff
-void	print_stack(t_stack *stack);
+size_t	get_pos(t_stack *stack, t_node *n);
+void	make_rotations(t_push_swap *ps, t_rotation *rotation);
+void	get_moves(t_push_swap *ps, t_node *node, size_t moves[4]);
 
 #endif

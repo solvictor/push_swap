@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 23:52:34 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/03 18:39:12 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/06 01:21:09 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,23 @@ static void	split_a(t_push_swap *ps, size_t nb_frac)
 	}
 }
 
-static size_t	insert_index(t_stack *stack, int data)
+static void	insert_a_sorted(t_push_swap *ps, t_node *node)
 {
-	t_node	*tmp;
-	t_node	*min;
-	size_t	index;
+	size_t		moves[4];
+	t_rotation	rotation;
 
-	if (!stack || !stack->size)
-		return (0);
-	min = get_min(stack);
-	if (data < min->data || data > min->prev->data)
-		return (get_pos(stack, min));
-	index = 0;
-	tmp = stack->head;
-	while (index < stack->size)
-	{
-		if (tmp->data > data && tmp->prev->data < data)
-			return (index);
-		index++;
-		tmp = tmp->next;
-	}
-	return (index);
-}
-
-/*
-0: ra
-1: rra
-2: rb
-3: rrb
-*/
-static void	get_moves(t_push_swap *ps, t_node *node, size_t moves[4])
-{
-	moves[0] = insert_index(&ps->a, node->data);
-	moves[1] = ps->a.size - moves[0];
-	moves[2] = get_pos(&ps->b, node);
-	moves[3] = ps->b.size - moves[2];
+	get_moves(ps, node, moves);
+	if (moves[0] < moves[1])
+		rotation.a_fun = &rotate;
+	else
+		rotation.a_fun = &rrotate;
+	if (moves[2] < moves[3])
+		rotation.b_fun = &rotate;
+	else
+		rotation.b_fun = &rrotate;
+	rotation.a_count = smin(moves[0], moves[1]);
+	rotation.b_count = smin(moves[2], moves[3]);
+	make_rotations(ps, &rotation);
 }
 
 static size_t	move_count(t_push_swap *ps, t_node *node)
@@ -111,44 +93,6 @@ static t_node	*less_moves(t_push_swap *ps, t_stack *s)
 		tmp = tmp->next;
 	}
 	return (best);
-}
-
-/*
-Counts:
-0: Number of action for A stack
-1: Number of action for B stack
-*/
-static void	insert_a_sorted(t_push_swap *ps, t_node *node)
-{
-	size_t	moves[4];
-	size_t	counts[2];
-	void	(*a_fun)(t_push_swap *, t_stack *);
-	void	(*b_fun)(t_push_swap *, t_stack *);
-
-	get_moves(ps, node, moves);
-	if (moves[0] < moves[1])
-		a_fun = &rotate;
-	else
-		a_fun = &rrotate;
-	if (moves[2] < moves[3])
-		b_fun = &rotate;
-	else
-		b_fun = &rrotate;
-	counts[0] = smin(moves[0], moves[1]);
-	counts[1] = smin(moves[2], moves[3]);
-	while (counts[0] || counts[1])
-	{
-		if (counts[0])
-		{
-			a_fun(ps, &ps->a);
-			counts[0]--;
-		}
-		if (counts[1])
-		{
-			b_fun(ps, &ps->b);
-			counts[1]--;
-		}
-	}
 }
 
 void	frac_sort(t_push_swap *ps)
