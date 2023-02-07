@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:15:23 by vegret            #+#    #+#             */
-/*   Updated: 2023/02/07 02:06:26 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/07 22:55:39 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_node	*new_node(int data)
 
 void	cicrular_doubly_list_addback(t_node **list, t_node *new)
 {
-	if (list && *list)
+	if (!list)
+		return ;
+	if (*list)
 	{
 		new->next = *list;
 		new->prev = (*list)->prev;
@@ -55,7 +57,9 @@ void	cicrular_doubly_list_addback(t_node **list, t_node *new)
 
 void	cicrular_doubly_list_addfront(t_node **list, t_node *new)
 {
-	if (list && *list)
+	if (!list)
+		return ;
+	if (*list)
 	{
 		(*list)->prev->next = new;
 		new->next = (*list);

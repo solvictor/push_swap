@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 21:44:33 by vegret            #+#    #+#             */
-/*   Updated: 2022/12/27 04:31:55 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/07 22:54:51 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	putptr(int fd, void *ptr, t_flag *flag)
 	int	printed;
 
 	printed = 0;
-	if (!(flag && flag->flags & ZERO))
+	if (flag && !(flag->flags & ZERO))
 		printed = fill_before(fd, flag, ptrlen(ptr, flag));
 	if (!ptr)
 		printed += write(fd, "(nil)", 5);
 	else
 	{
-		if (flag->flags & SPACE)
+		if (flag && flag->flags & SPACE)
 			printed += write(fd, " ", 1);
-		if (flag->flags & PLUS)
+		if (flag && flag->flags & PLUS)
 			printed += write(fd, "+", 1);
 		printed += write(fd, "0x", 2);
 		printed += putul_hex(fd, (unsigned long) ptr, 0, NULL);
