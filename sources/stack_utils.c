@@ -6,7 +6,7 @@
 /*   By: vegret <victor.egret.pro@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:15:23 by vegret            #+#    #+#             */
-/*   Updated: 2023/01/22 23:26:32 by vegret           ###   ########.fr       */
+/*   Updated: 2023/02/07 02:06:26 by vegret           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,5 @@ void	clear_nodes(t_stack *stack)
 		list = tmp;
 	}
 	free(first);
+	stack->head = NULL;
 }
