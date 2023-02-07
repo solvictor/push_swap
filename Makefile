@@ -45,15 +45,17 @@ OBJF		=	.cache_exists
 
 all:		$(NAME)
 
-bonus:		$(OBJ_B)
-			@$(SMAKE) -C $(LIBFT)
-			@$(CC) $(OBJ_B) -L $(LIBFT) -lft -o $(NAME_B)
-			@echo "$(GREEN)$(BOLD)$(NAME_B) compiled!$(DEF_COLOR)"
+bonus:		$(NAME_B)
 
 $(NAME):	$(OBJ)
 			@$(SMAKE) -C $(LIBFT)
 			@$(CC) $(OBJ) -L $(LIBFT) -lft -o $(NAME)
 			@echo "$(GREEN)$(BOLD)$(NAME) compiled!$(DEF_COLOR)"
+
+$(NAME_B):	$(OBJ_B)
+			@$(SMAKE) -C $(LIBFT)
+			@$(CC) $(OBJ_B) -L $(LIBFT) -lft -o $(NAME_B)
+			@echo "$(GREEN)$(BOLD)$(NAME_B) compiled!$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
 			@echo "\033[1A                                                     "
